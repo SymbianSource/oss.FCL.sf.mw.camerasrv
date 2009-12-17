@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Asynchronous File Saving Queue interface/integration tests
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET        STIFAFSQTest.dll
+TARGETTYPE    dll
+
+// First UID is DLL UID, Second UID is STIF Test Framework UID
+UID             0x1000008D 0x101FB3E7
+
+CAPABILITY    CAP_GENERAL_DLL
+VENDORID      VID_DEFAULT
+
+// Define directories for the .def-files of WINS and WINSCW builds separately.
+// IMPORTANT NOTICE:  The lines in the example that end with a backslash 
+// must have one space after the backslash.
+#if defined(ARMCC)
+deffile ../Eabi/ 
+#elif defined( WINSCW )
+deffile ../Bwinscw/ 
+#elif defined( WINS )
+deffile ../Bwins/ 
+#else
+deffile ../Bmarm/ 
+#endif
+
+SOURCEPATH      ../src
+
+SOURCE          StifFSQTestTop.cpp
+SOURCE          AFSQTestAsynchSave.cpp
+SOURCE          AFSQTestAdd.cpp
+SOURCE          AFSQTestDelete.cpp
+SOURCE          AFSQTestRename.cpp
+
+// STIF TFW files
+SOURCEPATH    ../src/TestFramework
+SOURCE        testcase.cpp
+SOURCE        assertFailure.cpp
+SOURCE        testSuite.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../inc/TestFramework
+USERINCLUDE     ../../../../Inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         sysutil.lib
+LIBRARY         fbscli.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         AsynchFSQ.lib
+
+EXPORTUNFROZEN

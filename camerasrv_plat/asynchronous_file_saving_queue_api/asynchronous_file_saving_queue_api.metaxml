@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="f9651a3f92b94af2f2bb11754579a115" dataversion="2.0">
+<name>Asynchronous File Saving Queue API</name>
+<description>API for saving image files asynchronously</description>
+<type>c++</type>
+<collection>CamAppEngine</collection>
+<libs><lib name="asynchfsq.lib"/>
+</libs>
+<release category="platform" sinceversion="0"/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

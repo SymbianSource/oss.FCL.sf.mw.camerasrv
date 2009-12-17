@@ -1,0 +1,14 @@
+EXPORTS
+	_Z9LibEntryLv @ 1 NONAME
+	_Z15SetRequirementsRP16CTestModuleParamRm @ 2 NONAME
+	_ZTI10CTestSuite @ 3 NONAME ; #<TI>#
+	_ZTI11CTestCallerI19CAFSQTestAsynchSaveE @ 4 NONAME ; #<TI>#
+	_ZTI14CAssertFailure @ 5 NONAME ; #<TI>#
+	_ZTI19CAFSQTestAsynchSave @ 6 NONAME ; #<TI>#
+	_ZTI9CTestCase @ 7 NONAME ; #<TI>#
+	_ZTV10CTestSuite @ 8 NONAME ; #<VT>#
+	_ZTV11CTestCallerI19CAFSQTestAsynchSaveE @ 9 NONAME ; #<VT>#
+	_ZTV14CAssertFailure @ 10 NONAME ; #<VT>#
+	_ZTV19CAFSQTestAsynchSave @ 11 NONAME ; #<VT>#
+	_ZTV9CTestCase @ 12 NONAME ; #<VT>#
+

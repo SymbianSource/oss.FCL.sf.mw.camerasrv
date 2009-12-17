@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Camera Application Engine Still Image Converter
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          CaeStillConverter.dll
+TARGETTYPE      dll
+
+UID             0x1000008d 0x101F856A
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+// Define directories for the .def-files of WINS and WINSCW builds separately.
+// IMPORTANT NOTICE:  The lines in the example that end with a backslash 
+// must have one space after the backslash.
+#if defined(ARMCC)
+deffile ../Eabi/ 
+#elif defined( WINSCW )
+deffile ../Bwinscw/ 
+#elif defined( WINS )
+deffile ../Bwins/ 
+#else
+deffile ../Bmarm/ 
+#endif
+
+SOURCEPATH      ../Src
+
+SOURCE          CaeStillConverter.cpp
+SOURCE          CaeStillEncoder.cpp
+SOURCE          CaeStillDecoder.cpp
+
+USERINCLUDE     ../Inc
+USERINCLUDE     ../../../inc       // MW level inc dir
+USERINCLUDE     ../../Engine/traces
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         imageconversion.lib
+
+LIBRARY         efsrv.lib
+LIBRARY         fbscli.lib
+
+// End of File

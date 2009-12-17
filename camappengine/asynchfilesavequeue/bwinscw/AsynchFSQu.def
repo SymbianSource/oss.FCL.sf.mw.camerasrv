@@ -1,0 +1,12 @@
+EXPORTS
+	?ActionsLeft@CAsynchFSQ@@QAEHXZ @ 1 NONAME ; int CAsynchFSQ::ActionsLeft(void)
+	?Delete@CAsynchFSQ@@QAEHABVTDesC16@@@Z @ 2 NONAME ; int CAsynchFSQ::Delete(class TDesC16 const &)
+	?Go@CAsynchFSQ@@QAEHXZ @ 3 NONAME ; int CAsynchFSQ::Go(void)
+	?NewL@CAsynchFSQ@@SAPAV1@XZ @ 4 NONAME ; class CAsynchFSQ * CAsynchFSQ::NewL(void)
+	?Rename@CAsynchFSQ@@QAEHABVTDesC16@@0@Z @ 5 NONAME ; int CAsynchFSQ::Rename(class TDesC16 const &, class TDesC16 const &)
+	?SaveAndDestroy@CAsynchFSQ@@QAEHAAVTDesC8@@ABVTDesC16@@H@Z @ 6 NONAME ; int CAsynchFSQ::SaveAndDestroy(class TDesC8 &, class TDesC16 const &, int)
+	?SetCallback@CAsynchFSQ@@QAEXPAVMAsynchFSQObserver@@@Z @ 7 NONAME ; void CAsynchFSQ::SetCallback(class MAsynchFSQObserver *)
+	?SetManualStart@CAsynchFSQ@@QAEXH@Z @ 8 NONAME ; void CAsynchFSQ::SetManualStart(int)
+	?SetPriority@CAsynchFSQ@@QAEXH@Z @ 9 NONAME ; void CAsynchFSQ::SetPriority(int)
+	?Cancel@CAsynchFSQ@@QAEXXZ @ 10 NONAME ; void CAsynchFSQ::Cancel(void)
+
