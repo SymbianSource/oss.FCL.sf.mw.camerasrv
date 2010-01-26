@@ -1881,8 +1881,12 @@ void CCMRVideoRecorder::SetVideoCodecL(const TDesC8& aMimeType)
             iDevVideoRec->FindEncodersL(iMimeType, 0 /* aPreProc */, iAvailableVideoEncoders, EFalse );
             PRINT((_L("CCMRVideoRecorder::SetVideoCodecL() search found %d encoder(s)"), iAvailableVideoEncoders.Count() ));
             }
-        iConfig->SetVideoCodec(iMimeType);
-        iConfig->SetVideoPixelAspectRatio(numerator, denominator);
+        
+        if ( iConfig )
+            {
+            iConfig->SetVideoCodec(iMimeType);
+            iConfig->SetVideoPixelAspectRatio(numerator, denominator);
+            }
 
         UpdateSupportedVideoFrameSizesRates();
 

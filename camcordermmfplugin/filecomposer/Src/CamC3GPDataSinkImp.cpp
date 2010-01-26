@@ -97,8 +97,6 @@ EXPORT_C CCamC3GPDataSink* CCamC3GPDataSink::NewL(M3GPDataSinkObserver *aObserve
 CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp(void)
     {
     PRINT(_L("CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp enter"));
-    delete [] iVideoBuffer;
-    delete [] iAudioBuffer;
 
     if ( iFileName != KNullDesC )
         {
@@ -122,6 +120,8 @@ CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp(void)
         iFS = NULL;
         }
 
+    delete [] iVideoBuffer;
+    delete [] iAudioBuffer;
     iObserver = NULL;
     iMMFFile = NULL; // not owned
     iFile = NULL; // not owned
