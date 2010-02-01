@@ -3479,8 +3479,11 @@ CCMRMediaBuffer* CCMRVideoRecorder::GetNextBuffer()
         iOutputVideoBuffer = iVideoOutputBufferInputQue.First();
 
         // Remove the picture from the list
-        iOutputVideoBuffer->iLink.Deque();
-        iNumberOfVideoOutputBuffers--;
+        if ( iOutputVideoBuffer != NULL )
+            {
+            iOutputVideoBuffer->iLink.Deque();
+            iNumberOfVideoOutputBuffers--;
+            }
         // leave restricted area
         iMutexObj.Signal();
         }

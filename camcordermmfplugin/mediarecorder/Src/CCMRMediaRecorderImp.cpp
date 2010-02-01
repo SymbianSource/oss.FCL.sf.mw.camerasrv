@@ -399,7 +399,10 @@ void CCMRMediaRecorderImp::SetVideoFrameSizeL(const TSize& aSize)
     // this can't be changed while recording; video recorder is supposed to notice if in wrong state
     // state is changed based on mvroStateChange()
     iVideoRecorder->SetFrameSizeL(aSize);
-    iConfig->SetVideoFrameSize(aSize);
+    if ( iConfig != NULL )
+        {
+        iConfig->SetVideoFrameSize(aSize);
+        }
 
     // Change audio samplerate based on framesize
     TSize framesize;
@@ -494,12 +497,15 @@ void CCMRMediaRecorderImp::SetVideoBitRateL(TInt aBitRate)
         {
         TInt abr;
         // check that the total bit-rate (audio+video) does not exceed a given limit
-        iAudioRecorder->TargetBitRateL(abr);
-        if ( iAudioRecorder && iAudioEnabled && ( abr > 0 ) &&
-             ( abr + aBitRate > iMaxTargetBitRate ) )
+        if ( iAudioRecorder != NULL )
             {
-            PRINT((_L("CCMRMediaRecorderImp::SetVideoBitRateL() too high combined bitrate")));
-            User::Leave(KErrArgument);
+            iAudioRecorder->TargetBitRateL(abr);
+            if ( iAudioEnabled && ( abr > 0 ) &&
+                 ( abr + aBitRate > iMaxTargetBitRate ) )
+                {
+                PRINT((_L("CCMRMediaRecorderImp::SetVideoBitRateL() too high combined bitrate")));
+                User::Leave(KErrArgument);
+                }
             }
         }
 

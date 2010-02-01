@@ -141,7 +141,10 @@ TBool CCMRVideoCodecDataH263::MaxFrameSize( const TSize& aSize ) const
         case 30 :
         case 40 :
             arbitrarySizeAllowed = EFalse;
-        case 50 : 
+            maxSize.SetSize(KCMRCIFWidth,KCMRCIFHeight);
+            break;
+        case 50 :
+            arbitrarySizeAllowed = ETrue;
             maxSize.SetSize(KCMRCIFWidth,KCMRCIFHeight);
             break;
         case 45 :

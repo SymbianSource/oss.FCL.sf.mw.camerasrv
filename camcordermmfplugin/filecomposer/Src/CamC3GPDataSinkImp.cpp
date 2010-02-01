@@ -2207,7 +2207,7 @@ void CCamC3GPDataSinkImp::ConvertNALEncapsulationToNALSizes( CCMRMediaBuffer* aB
 //
 void CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName( MP4FileName tempFileName )
     {
-    PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName entering, tempFileName=%x, file count=%d"),tempFileName, iDeleteFileQueue->Count()));
+    PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName entering")));
     MP4FileName* tempFileNamePtr = NULL;
     TInt result = KErrNoMemory;
 
@@ -2216,6 +2216,8 @@ void CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName( MP4FileName tempFileName
     PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName tempFileName=%x, tempFileNamePtr=%x"), tempFileName, tempFileNamePtr));
     if ( tempFileNamePtr && iDeleteFileQueue )
         {
+        PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName file count=%d"), iDeleteFileQueue->Count()));
+        
         *tempFileNamePtr = tempFileName;
         result = iDeleteFileQueue->Append( tempFileNamePtr );
         }
@@ -2264,7 +2266,7 @@ TInt CCamC3GPDataSinkImp::IdleDelete( TAny* aCont )
 //
 TInt CCamC3GPDataSinkImp::DoIdleDelete()
     {
-    PRINT((_L("CCamC3GPDataSinkImp::DoIdleDelete() in, file count=%d"), iDeleteFileQueue->Count()));
+    PRINT((_L("CCamC3GPDataSinkImp::DoIdleDelete() in")));
     TInt err = KErrNone;
     MP4FileName tempFileName;
     TInt filesLeft = EFalse;
@@ -2272,6 +2274,7 @@ TInt CCamC3GPDataSinkImp::DoIdleDelete()
     // Delete one file from queue
     if ( iDeleteFileQueue )
         {
+        PRINT((_L("CCamC3GPDataSinkImp::DoIdleDelete() file count=%d"), iDeleteFileQueue->Count()));    
         if ( iDeleteFileQueue->Count() )
             {
             tempFileName = *(*iDeleteFileQueue)[0];
