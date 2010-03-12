@@ -31,6 +31,10 @@
 #include "CaeEngineImpTestErrors.h"         // For TEST_VERSION compilation only
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CaeEngineImpVideoRecordingTraces.h"
+#endif
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -42,6 +46,7 @@
 //
 void CCaeEngineImp::InitVideoRecorderL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_INITVIDEORECORDERL, "e_CAM_CAE_INITVIDEORECORDER 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::InitVideoRecorderL() entering" ) );
 
     iVideoInitialized = EFalse;
@@ -94,6 +99,7 @@ void CCaeEngineImp::InitVideoRecorderL()
     iVideoInitialized = ETrue;
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::InitVideoRecorderL() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_INITVIDEORECORDERL, "e_CAM_CAE_INITVIDEORECORDER 0" );
     }
 
 
@@ -210,6 +216,7 @@ void CCaeEngineImp::PrepareVideoRecordingL(
     const TDesC8& aVideoType, 
     const TDesC8& aAudioType )
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_PREPAREVIDEORECORDING 1" );
     LOGTEXT3( _L( "Cae: CCaeEngineImp::PrepareVideoRecordingL() entering aFrameSize wxh=%dx%d" ),
             aFrameSize.iWidth, aFrameSize.iHeight );
 
@@ -257,14 +264,17 @@ void CCaeEngineImp::PrepareVideoRecordingL(
     iVideoOpened = ETrue; // This is always set to ETrue when 
                           // OpenFileL has been called to allow 
                           // freeing resources by CloseVideoRecording().
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_VIDEORECORDER_OPENFILE 1" );
     iVideoRecorder->OpenFileL( iVideoClipFileName->Des(),
                                iCameraHandle,
                                iVideoControllerUid,
                                iVideoFormatUid, 
                                iVideoType->Des(),  
                                iVideoAudioType );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_VIDEORECORDER_OPENFILE 0" );
     
     LOGTEXT( _L( "Cae: CCaeEngineImp::PrepareVideoRecordingL() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_PREPAREVIDEORECORDING 0" );
     }
 
 
@@ -274,6 +284,7 @@ void CCaeEngineImp::PrepareVideoRecordingL(
 //
 void CCaeEngineImp::CloseVideoRecording()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_CLOSEVIDEORECORDING, "e_CAM_CAE_CLOSEVIDEORECORDING 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::CloseVideoRecording() entering" ) );
 
     if ( iVideoPrepared ) 
@@ -284,11 +295,14 @@ void CCaeEngineImp::CloseVideoRecording()
 
     if ( iVideoOpened )
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_CLOSEVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_CLOSE 1" );
         iVideoRecorder->Close();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_CLOSEVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_CLOSE 0" );
         iVideoOpened = EFalse;
         }
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::CloseVideoRecording() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_CLOSEVIDEORECORDING, "e_CAM_CAE_CLOSEVIDEORECORDING 0" );
     }
 
 
@@ -396,7 +410,9 @@ void CCaeEngineImp::SetVideoClipMaxSizeL(
         {
         iPrepPars = ETrue;
         iVideoRecorder->SetMaxClipSizeL( iMaxClipSizeInBytesPrep );
+        OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_SETVIDEOCLIPMAXSIZEL, "e_CAM_CAE_VIDEORECORDER_PREPARE 1" );
         iVideoRecorder->Prepare();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_SETVIDEOCLIPMAXSIZEL, "e_CAM_CAE_VIDEORECORDER_PREPARE 0" );
         }
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::SetVideoClipMaxSizeL() returning" ) );
@@ -440,7 +456,9 @@ void CCaeEngineImp::SetVideoAudioL(
     iVideoAudioEnabledPrep = aAudioEnabled;
     iVideoRecorder->SetAudioEnabledL( iVideoAudioEnabledPrep );
     iPrepPars = ETrue;
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_SETVIDEOAUDIOL, "e_CAM_CAE_VIDEORECORDER_PREPARE 1" );
     iVideoRecorder->Prepare();
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_SETVIDEOAUDIOL, "e_CAM_CAE_VIDEORECORDER_PREPARE 0" );
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::SetVideoAudioL() returning" ) );
     }
@@ -524,6 +542,7 @@ TTimeIntervalMicroSeconds CCaeEngineImp::VideoTimesInterval() const
 //
 void CCaeEngineImp::StartVideoRecording()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_STARTVIDEORECORDING 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::StartVideoRecording() entering" ) );
 
     TInt error( KErrNone );
@@ -538,7 +557,9 @@ void CCaeEngineImp::StartVideoRecording()
     	iPrevTimeRemaining = 0;
     	
        // Start video recording.
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_RECORD 1" );
         iVideoRecorder->Record();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_RECORD 0" );
         if ( iVideoTimesInterval > TTimeIntervalMicroSeconds32( 0 ) ) 
             {
             // Start generating video recording time information for the client.
@@ -553,9 +574,12 @@ void CCaeEngineImp::StartVideoRecording()
         }
 
 
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGON 1" );
     iCaeObserver->McaeoVideoRecordingOn( error );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGON 0" ); 
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::StartVideoRecording() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_STARTVIDEORECORDING, "e_CAM_CAE_STARTVIDEORECORDING 0" );
     }
 
 
@@ -570,6 +594,7 @@ void CCaeEngineImp::StartVideoRecording()
 //
 void CCaeEngineImp::StopVideoRecording()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_STOPVIDEORECORDING 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::StopVideoRecording() entering" ) );
         
     TInt stoppingError( KErrNone );
@@ -596,21 +621,29 @@ void CCaeEngineImp::StopVideoRecording()
         if ( iAsyncVideoStopEnabled )
             {
        		LOGTEXT( _L( "Cae: CCaeEngineImp::StopVideoRecording(). using custom command ECamCControllerCCVideoStopAsync" )); 
+            OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP_ASYNC 1" );
             asyncStopErr = iVideoRecorder->CustomCommandSync( TMMFMessageDestination( iVideoControllerUid, KMMFObjectHandleController ), 
                                                         ECamCControllerCCVideoStopAsync, 
                                                         KNullDesC8, 
                                                         KNullDesC8 );
+       		OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP_ASYNC 0" );
        		if ( asyncStopErr ) // async stop was not supported, use sync stop
        		    {
            		LOGTEXT2( _L( "Cae: CCaeEngineImp::StopVideoRecording(). async stop err=%d, using sync stop" ), asyncStopErr); 
+                OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 1" );
                 stoppingError = iVideoRecorder->Stop();
+                OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 0" );
+                OstTrace0( CAMERASRV_PERFORMANCE, DUP8_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 1" );
                 iCaeObserver->McaeoVideoRecordingStopped();
+       		    OstTrace0( CAMERASRV_PERFORMANCE, DUP9_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 0" );
        		    }
             }
         else
             {
             // Synchronous, quaranteed that video recording is stopped when returning.
+            OstTrace0( CAMERASRV_PERFORMANCE, DUP6_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 1" );
             stoppingError = iVideoRecorder->Stop();
+            OstTrace0( CAMERASRV_PERFORMANCE, DUP7_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 0" );
             }
         
         // Can't be paused anymore.
@@ -659,11 +692,14 @@ void CCaeEngineImp::StopVideoRecording()
 
     if ( !iAsyncVideoStopEnabled || asyncStopErr )
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP10_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 1" );
         iCaeObserver->McaeoVideoRecordingComplete( stoppingError );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP11_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 0" );
         }
 
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::StopVideoRecording() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_STOPVIDEORECORDING, "e_CAM_CAE_STOPVIDEORECORDING 0" );
     }
 
 
@@ -727,7 +763,9 @@ void CCaeEngineImp::ResumeVideoRecording()
     if ( iVideoRecordingRunning && iVideoRecordingPaused ) 
         {
         // Start video recording.
+        OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_RESUMEVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_RECORD 1" );
         iVideoRecorder->Record();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_RESUMEVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_RECORD 0" );
         iVideoRecordingPaused = EFalse;
         if ( iVideoTimesInterval > TTimeIntervalMicroSeconds32( 0 ) ) 
             {
@@ -792,6 +830,7 @@ void CCaeEngineImp::PrepareVideoRecordingL(
     const TDesC8& aVideoType, 
     const TDesC8& aAudioType )
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_PREPAREVIDEORECORDINGL 1" );
     // Memorize video audio bit rate value to be prepared.
     iVideoAudioBitRatePrep = aAudioBitRate;
     // Force audio bit rate preparation.
@@ -808,6 +847,7 @@ void CCaeEngineImp::PrepareVideoRecordingL(
                             aPreferredSupplier, 
                             aVideoType, 
                             aAudioType );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCAEENGINEIMP_PREPAREVIDEORECORDINGL, "e_CAM_CAE_PREPAREVIDEORECORDINGL 0" );
     }
 
 
@@ -837,12 +877,16 @@ void CCaeEngineImp::MvruoOpenComplete(
         TRAP( aError, PrepareVideoSettingsL() );
         if ( aError != KErrNone ) 
             {
+            OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_MVRUOOPENCOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 1" );
             iCaeObserver->McaeoVideoPrepareComplete( aError );
+            OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_MVRUOOPENCOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 0" );
             }
         }
     else
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_MVRUOOPENCOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 1" );
         iCaeObserver->McaeoVideoPrepareComplete( aError );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_MVRUOOPENCOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 0" );
         }
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::MvruoOpenComplete() returning" ) );
@@ -896,7 +940,9 @@ void CCaeEngineImp::MvruoPrepareComplete(
             }
         }
 
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_MVRUOPREPARECOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 1" );
     iCaeObserver->McaeoVideoPrepareComplete( aError );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_MVRUOPREPARECOMPLETE, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 0" );
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::MvruoPrepareComplete() returning" ) );
     }
@@ -942,9 +988,13 @@ void CCaeEngineImp::MvruoRecordComplete(
         // In async stop mode call also the other call-back to play stop sound
         if ( iAsyncVideoStopEnabled )
             {
+            OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_MVRUORECORDCOMPLETE, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 1" );
             iCaeObserver->McaeoVideoRecordingStopped();
+            OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_MVRUORECORDCOMPLETE, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 0" );
             }
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_MVRUORECORDCOMPLETE, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 1" );
         iCaeObserver->McaeoVideoRecordingComplete( aError );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_MVRUORECORDCOMPLETE, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 0" );
         }
     
     LOGTEXT( _L( "Cae: CCaeEngineImp::MvruoRecordComplete() returning" ) );
@@ -964,17 +1014,23 @@ void CCaeEngineImp::MvruoEvent(
     
     if ( aEvent.iEventType.iUid == KCamCControllerCCVideoRecordStopped.iUid )
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 1" );
         iCaeObserver->McaeoVideoRecordingStopped();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEORECORDINGSTOPPED 0" );
         }
     else if ( aEvent.iEventType.iUid == KCamCControllerCCVideoFileComposed.iUid )
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 1" );
         iCaeObserver->McaeoVideoRecordingComplete( aEvent.iErrorCode );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEORECORDINGCOMPLETE 0" );
         }
     else
         {
         // Send others events as error to UI 
         iVideoPrepared = EFalse;    // mark that re-preparation is needed 
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 1" );
         iCaeObserver->McaeoVideoPrepareComplete( aEvent.iErrorCode );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCAEENGINEIMP_MVRUOEVENT, "e_CAM_CAE_MCAEOVIDEOPREPARECOMPLETE 0" );
         }
     
     LOGTEXT( _L( "Cae: CCaeEngineImp::MvruoEvent() returning" ) );
@@ -1004,7 +1060,9 @@ void CCaeEngineImp::CancelVideoRecording()
     	iPrevTimeRemaining = 0;
     	
         // Stop video recording. Do not call McaeoVideoRecordingComplete()
+        OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_CANCELVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 1" );
         (void) iVideoRecorder->Stop();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_CANCELVIDEORECORDING, "e_CAM_CAE_VIDEORECORDER_STOP 0" );
         iVideoRecordingPaused = EFalse;
         }
     
@@ -1019,6 +1077,7 @@ void CCaeEngineImp::CancelVideoRecording()
 //
 void CCaeEngineImp::PrepareVideoSettingsL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_PREPAREVIDEOSETTINGSL, "e_CAM_CAE_PREPAREVIDEOSETTINGS 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::PrepareVideoSettingsL() entering" ) );
 
     #ifdef CAE_TEST_VERSION
@@ -1047,9 +1106,12 @@ void CCaeEngineImp::PrepareVideoSettingsL()
     LOGTEXT2( _L( "Cae: CCaeEngineImp::PrepareVideoSettingsL() GainL set to %d" ), gain );
 
     iPrepPars = ETrue;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_PREPAREVIDEOSETTINGSL, "e_CAM_CAE_VIDEORECORDER_PREPARE 1" );
     iVideoRecorder->Prepare();
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_PREPAREVIDEOSETTINGSL, "e_CAM_CAE_VIDEORECORDER_PREPARE 0" );
 
     LOGTEXT( _L( "Cae: CCaeEngineImp::PrepareVideoSettingsL() returning" ) );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_PREPAREVIDEOSETTINGSL, "e_CAM_CAE_PREPAREVIDEOSETTINGS 0" );
     }
 
 

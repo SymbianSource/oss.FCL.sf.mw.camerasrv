@@ -20,12 +20,16 @@
 #include    "CCMRVideoCameraSource.h"
 #include    "CCMRFrameBuffer.h"
 
-
 #ifdef _DEBUG
 #include <e32svr.h>
 #define PRINT(x) RDebug::Print x
 #else
 #define PRINT(x)
+#endif
+
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRVideoCameraSourceTraces.h"
 #endif
 
 
@@ -127,6 +131,7 @@ CCMRVideoCameraSource* CCMRVideoCameraSource::NewL(MCMRVideoSourceObserver* aObs
 //
 CCMRVideoCameraSource::~CCMRVideoCameraSource()
     {   
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRVIDEOCAMERASOURCE_CCMRVIDEOCAMERASOURCE, "e_CCMRVideoCameraSource::~CCMRVideoCameraSource 1" );
     // verify that camera has been released
     if ( iReserved && iCamera )
         {
@@ -135,6 +140,7 @@ CCMRVideoCameraSource::~CCMRVideoCameraSource()
 
     iObserver = NULL;
     delete iCamera;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRVIDEOCAMERASOURCE_CCMRVIDEOCAMERASOURCE, "e_CCMRVideoCameraSource::~CCMRVideoCameraSource 0" );
     }
 
 // ---------------------------------------------------------

@@ -45,6 +45,11 @@ const TInt KCMRNumAudioBuffers = 10;
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRAudioInputTraces.h"
+#endif
+
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -53,6 +58,7 @@ const TInt KCMRNumAudioBuffers = 10;
 //
 CCMRAudioInput::~CCMRAudioInput()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRAUDIOINPUT_CCMRAUDIOINPUT, "e_CCMRAudioInput::~CCMRAudioInput 1" );
 
     if ( iInputEmpty )
         {
@@ -106,6 +112,7 @@ CCMRAudioInput::~CCMRAudioInput()
         {
         iMutexObj.Close();
         }
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRAUDIOINPUT_CCMRAUDIOINPUT, "e_CCMRAudioInput::~CCMRAudioInput 0" );
     }
 
 // -----------------------------------------------------------------------------

@@ -40,6 +40,10 @@
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CamCControllerTraces.h"
+#endif
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -69,6 +73,7 @@ CCamCController* CCamCController::NewL()
 //
 CCamCController::~CCamCController()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_CCAMCCONTROLLER, "e_CCamCController::~CCamCController 1" );
     PRINT((_L("CCamCController::~CCamCController enter      ")));
 
     delete iMediaRecorder;
@@ -95,6 +100,7 @@ CCamCController::~CCamCController()
     delete iIdleStop;
 
     PRINT((_L("CCamCController::~CCamCController exit      ")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_CCAMCCONTROLLER, "e_CCamCController::~CCamCController 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -105,6 +111,7 @@ CCamCController::~CCamCController()
 //
 void CCamCController::ConstructL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_CONSTRUCTL, "e_CCamCController::ConstructL 1" );
     PRINT((_L("CCamCController::ConstructL() in")));
 
     iMediaRecorder = NULL;
@@ -149,6 +156,7 @@ void CCamCController::ConstructL()
     iIdleStop = CIdle::NewL( CActive::EPriorityIdle );
 
     PRINT((_L("CCamCController::ConstructL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_CONSTRUCTL, "e_CCamCController::ConstructL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -275,10 +283,12 @@ void CCamCController::PrimeL()
 //
 void CCamCController::PlayL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_PLAYL, "e_CCamCController::PlayL 1" );
     PRINT((_L("CCamCController::PlayL() in")));
 
     if ( iState == EStateRecording )
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_PLAYL, "e_CCamCController::PlayL 0" );
         return;
         }
 
@@ -329,6 +339,7 @@ void CCamCController::PlayL()
         }
     iState = EStateRecording;
     PRINT((_L("CCamCController::PlayL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAMCCONTROLLER_PLAYL, "e_CCamCController::PlayL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -356,6 +367,7 @@ void CCamCController::PauseL()
 //
 void CCamCController::StopL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_STOPL, "e_CCamCController::StopL 1" );
     PRINT((_L("CCamCController::StopL() in")));
 
     if ( ( iState != EStateRecording ) && ( iState != EStatePaused ) )
@@ -424,6 +436,7 @@ void CCamCController::StopL()
         }
 
     PRINT((_L("CCamCController::StopL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_STOPL, "e_CCamCController::StopL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -507,6 +520,7 @@ void CCamCController::SetPrioritySettings(const TMMFPrioritySettings& aPriorityS
 //
 void CCamCController::CustomCommand( TMMFMessage& aMessage )
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_CUSTOMCOMMAND, "e_CCamCController::CustomCommand 1" );
     PRINT((_L("CCamCController::CustomCommand() in")));
     if ( aMessage.Destination().InterfaceId().iUid != KCamCUidControllerImplementation )
         {
@@ -544,6 +558,7 @@ void CCamCController::CustomCommand( TMMFMessage& aMessage )
             }
         }
     PRINT((_L("CCamCController::CustomCommand() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_CUSTOMCOMMAND, "e_CCamCController::CustomCommand 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -574,6 +589,7 @@ CMMFMetaDataEntry* CCamCController::GetMetaDataEntryL(TInt /*aIndex*/)
 //
 void CCamCController::MmroPrepareComplete(TInt aError)
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_MMROPREPARECOMPLETE, "e_CCamCController::MmroPrepareComplete 1" );
     PRINT((_L("CCamCController::MmroPrepareComplete() error= %d      "), aError));
 
     if ( aError == KErrNone )
@@ -585,6 +601,7 @@ void CCamCController::MmroPrepareComplete(TInt aError)
 	    iMRPrepareCompleteSent = ETrue;
 	    DoSendEventToClient(TMMFEvent(KMMFEventCategoryVideoPrepareComplete, aError));
 		}
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_MMROPREPARECOMPLETE, "e_CCamCController::MmroPrepareComplete 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -1197,6 +1214,7 @@ void CCamCController::MvrcSetVideoFrameSizeL(TSize aFrameSize)
 //
 void CCamCController::MvrcPrepareL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_MVRCPREPAREL, "e_CCamCController::MvrcPrepareL 1" );
     PRINT((_L("CCamCController::MvrcPrepareL() in")));
 
     if ( iState == EStatePrepared )
@@ -1256,6 +1274,7 @@ void CCamCController::MvrcPrepareL()
         }
 
     PRINT((_L("CCamCController::MvrcPrepareL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_MVRCPREPAREL, "e_CCamCController::MvrcPrepareL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -1401,6 +1420,7 @@ void CCamCController::MardGetBalanceL(TInt& /*aBalance*/)
 //
 void CCamCController::NewFilenameL( TMMFMessage& aMessage )
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_NEWFILENAMEL, "e_CCamCController::NewFilenameL 1" );
     PRINT((_L("CCamCController::NewFilename() in")));
 
     if ( iState == EStatePrepared )
@@ -1432,6 +1452,7 @@ void CCamCController::NewFilenameL( TMMFMessage& aMessage )
     iForceDataSinkFileName = ETrue;
 
     PRINT((_L("CCamCController::NewFilename() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_NEWFILENAMEL, "e_CCamCController::NewFilenameL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -1494,6 +1515,7 @@ TInt CCamCController::IdleStop( TAny* aCont )
 //
 void CCamCController::DoIdleStop()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMCCONTROLLER_DOIDLESTOP, "e_CCamCController::DoIdleStop 1" );
     PRINT((_L("CCamCController::DoIdleStop() in")));
     TInt error = KErrNone;
 
@@ -1520,6 +1542,7 @@ void CCamCController::DoIdleStop()
     iFileComposerReady = EFalse;
     iAsyncStop = EFalse;
     PRINT((_L("CCamCController::DoIdleStop() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMCCONTROLLER_DOIDLESTOP, "e_CCamCController::DoIdleStop 0" );
     }
 
 

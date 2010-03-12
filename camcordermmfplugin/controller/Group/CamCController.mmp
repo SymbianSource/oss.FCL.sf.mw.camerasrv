@@ -39,6 +39,7 @@ MW_LAYER_SYSTEMINCLUDE
 USERINCLUDE     ../Inc
 USERINCLUDE	    ../../../inc   // ADo level inc dir
 USERINCLUDE     ../../mediarecorder/Inc
+USERINCLUDE     ../traces
 
 LIBRARY		euser.lib 
 LIBRARY		mmfcontrollerframework.lib

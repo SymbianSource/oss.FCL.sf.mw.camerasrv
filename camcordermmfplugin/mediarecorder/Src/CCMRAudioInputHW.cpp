@@ -38,6 +38,11 @@ const TInt KCMRNumPassAudioBuffers = 2;     // # of buffers for passthrough mode
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRAudioInputHWTraces.h"
+#endif
+
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -60,6 +65,7 @@ CCMRAudioInput* CCMRHWAudioInput::NewL(MDataSource* aRealSource, CCMRActiveOutpu
 //
 CCMRHWAudioInput::~CCMRHWAudioInput()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRHWAUDIOINPUT_CCMRHWAUDIOINPUT, "e_CCMRHWAudioInput::~CCMRHWAudioInput 1" );
     // allocated bufs can be either in iInputEmpty, iInputFilled, iOutputFilled, or iOutputEmptied
     CMMFDataBuffer* tmp;
     TInt i = 0;
@@ -110,6 +116,7 @@ CCMRHWAudioInput::~CCMRHWAudioInput()
             }
         PRINT((_L("CCMRHWAudioInput::~CCMRHWAudioInput() deleted %d bufs from iOutputEmptied queue"), i ));
         }
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRHWAUDIOINPUT_CCMRHWAUDIOINPUT, "e_CCMRHWAudioInput::~CCMRHWAudioInput 0" );
     }
 
 // -----------------------------------------------------------------------------

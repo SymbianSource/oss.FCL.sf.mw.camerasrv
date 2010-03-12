@@ -70,8 +70,6 @@ NONSHARABLE_CLASS( CCaeEngineImp ): public CCaeEngine,
                                     public MCameraObserver2
     {
 
-    friend void CCaeCallbackActive::RunL();
-	friend void CCaeCallbackActive::DoCancel();
 
     public: // Construction and destruction
 

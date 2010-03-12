@@ -22,6 +22,10 @@
 #include "CaeEngineImp.h" // For Camera Application Engine implementation.
 #include "CamCControllerCustomCommands.h" // For Camcorder plug-in custom commands and UId.
 #include <mmf/server/mmffile.h> // For MMF definitions (as TMMFFileConfig)
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CaeEngineImpVideoNameCustomTraces.h"
+#endif
 
 // -----------------------------------------------------------------------------
 // CCaeEngineImp::ChangeVideoFileNameL
@@ -29,6 +33,7 @@
 //
 void CCaeEngineImp::ChangeVideoFileNameL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_CHANGE_VIDEO_FILE_NAME 1" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::ChangeVideoFileNameL() entering" ) );
 
     if ( iVideoControllerUid == KCamCControllerImplementationUid ) 
@@ -37,18 +42,22 @@ void CCaeEngineImp::ChangeVideoFileNameL()
         // We know that the custom command is available with this specific implementation.
         TMMFFileConfig pckg;
         pckg().iPath = iVideoClipFileName->Des();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_CUSTOM_COMMAND 1" );
         TInt err = iVideoRecorder->CustomCommandSync( TMMFMessageDestination( iVideoControllerUid, 
                                                                    KMMFObjectHandleController ), 
                                            ECamCControllerCCNewFilename, 
                                            pckg, 
                                            KNullDesC8 );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_CUSTOM_COMMAND 0" );
         if (err)
             {
             LOGTEXT2( _L( "Cae: CCaeEngineImp::ChangeVideoFileNameL() CustomCommandSync failed err=%d, leaving" ), err );
             User::Leave(err);
             }
         iPrepPars = EFalse;
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_VIDEORECORDER_PREPARE 1" );
         iVideoRecorder->Prepare();
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_VIDEORECORDER_PREPARE 0" );
         }
     else 
         {
@@ -59,14 +68,16 @@ void CCaeEngineImp::ChangeVideoFileNameL()
         iVideoOpened = ETrue; // This is always set to ETrue when 
                               // OpenFileL has been called to allow 
                               // freeing resources by CloseVideoRecording().
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP6_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_VIDEORECORDER_OPENFILE 1" );
         iVideoRecorder->OpenFileL( iVideoClipFileName->Des(),
                                    iCameraHandle,
                                    iVideoControllerUid,
                                    iVideoFormatUid, 
                                    iVideoType->Des(),  
                                    iVideoAudioType );
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP7_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_VIDEORECORDER_OPENFILE 0" );
         }
-
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAEENGINEIMP_CHANGEVIDEOFILENAMEL, "e_CAM_CAE_CHANGE_VIDEO_FILE_NAME 0" );
     LOGTEXT( _L( "Cae: CCaeEngineImp::ChangeVideoFileNameL() returning" ) );
     }
 

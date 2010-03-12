@@ -46,9 +46,15 @@
 // Debug print macro
 #ifdef _DEBUG
 #include <e32svr.h>
+
 #define PRINT(x) RDebug::Print x;
 #else
 #define PRINT(x)
+#endif
+
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRMDFVideoRecorderTraces.h"
 #endif
 
 // ============================= LOCAL FUNCTIONS ===============================
@@ -227,6 +233,7 @@ void CCMRVideoRecorder::ConstructL(CCMRConfigManager* aConfig)
 //
 CCMRVideoRecorder::~CCMRVideoRecorder()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder 1" );
     PRINT((_L("CCMRVideoRecorder::~CCMRVideoRecorder(), In")));
     // This is the counterpart to NewL & OpenL, e.g. Close & Delete
     // free all memory allocated and uninitalize & delete objects created, e.g. DevVideoRecord
@@ -242,8 +249,10 @@ CCMRVideoRecorder::~CCMRVideoRecorder()
     iClockSource = NULL;
 
     // delete DevVideoRecord instance
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP6_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_DevVideoRec 1" );
     delete iDevVideoRec;
     PRINT((_L("CCMRVideoRecorder::~CCMRVideoRecorder() devvideorec deleted")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP7_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_DevVideoRec 0" );
 
     iAvailableVideoFrameSizesRates.Close();
     iAvailableVideoEncoders.Close();
@@ -254,6 +263,7 @@ CCMRVideoRecorder::~CCMRVideoRecorder()
     delete iVideoCodecData;
     iVideoCodecData = NULL;
 
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_SourceFifo 1" );
     // empty the source fifo, just in case once more; this should be done a) by encoder and b) by MdvroStreamEnd()
     MFrameBuffer* cbuffer;
     if ( iSourceFifo )
@@ -267,6 +277,8 @@ CCMRVideoRecorder::~CCMRVideoRecorder()
         delete iSourceFifo;
         iSourceFifo = NULL;
         }
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_SourceFifo 0" );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_CodingFifo 1" );
     TVideoPicture* picture;
     if ( iCodingFifo )
         {
@@ -280,6 +292,7 @@ CCMRVideoRecorder::~CCMRVideoRecorder()
         delete iCodingFifo;
         iCodingFifo = NULL;
         }
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder_delete_CodingFifo 0" );
     PRINT((_L("CCMRVideoRecorder::~CCMRVideoRecorder() fifos deleted")));
 
     if ( iDecSpecInfo )
@@ -314,6 +327,7 @@ CCMRVideoRecorder::~CCMRVideoRecorder()
     SetState(EStateNone);
 
     PRINT((_L("CCMRVideoRecorder::~CCMRVideoRecorder(), Out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRVIDEORECORDER_CCMRVIDEORECORDER, "e_CCMRVideoRecorder::~CCMRVideoRecorder 0" );
     }
 
 
