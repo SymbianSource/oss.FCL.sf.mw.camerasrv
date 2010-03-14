@@ -1006,7 +1006,7 @@ void CCamC3GPDataSinkImp::SinkStopL()
         if (error != MP4_OK)
             {
             PRINT((_L("CCamC3GPDataSinkImp::SinkStopL MP4ComposeWriteVideoFrame, error=%d"), error));
-            User::Leave(KErrGeneral);
+            User::Leave(KErrWrite);
             }
         }
 
@@ -1024,7 +1024,7 @@ void CCamC3GPDataSinkImp::SinkStopL()
         if (error != MP4_OK)
             {
             PRINT((_L("CCamC3GPDataSinkImp::SinkStopL MP4ComposeWriteAudioFrames, error=%d"), error));
-            User::Leave(KErrGeneral);
+            User::Leave(KErrWrite);
             }
         }
 
@@ -1036,15 +1036,22 @@ void CCamC3GPDataSinkImp::SinkStopL()
     if (error != MP4_OK)
         {
         PRINT((_L("CCamC3GPDataSinkImp::SinkStopL MP4ComposeClose, error=%d"), error));
-        TInt64 currentdiskspace = DriveFreeSpaceL();
+        TInt64 currentdiskspace = 0;
+        TInt freespaceError = KErrNone;
+        TRAP(freespaceError, currentdiskspace = DriveFreeSpaceL());
 
-        if ( currentdiskspace < ((TInt64)KDiskSafetyLimit+iCriticalDiskVal+CurrentMetadataSize()) )
+        if ( (freespaceError == KErrNone) &&
+             (currentdiskspace < ((TInt64)KDiskSafetyLimit+iCriticalDiskVal+CurrentMetadataSize())) )
             {
             PRINT((_L("CCamC3GPDataSinkImp::SinkStopL disk full, available: %d"), I64INT(currentdiskspace)));
             iDiskFull = ETrue;
             User::Leave(KErrDiskFull);
             }
-        else
+        else if ( freespaceError != KErrNone )
+            {
+            User::Leave(KErrWrite); // There was error reading free disk space - probably memory card read/write error.
+            }
+        else    
             {
             User::Leave(KErrGeneral);
             }
@@ -1204,7 +1211,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL AMR-NB MP4ComposeWriteAudioFrames, error=%d"), error));
                 if (error != MP4_OK)
                     {
-                    User::Leave(KErrGeneral);
+                    User::Leave(KErrWrite);
                     }
 
                 iAudioFramesInBuffer = 0;
@@ -1230,7 +1237,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL AAC MP4ComposeWriteAudioFrames, error=%d"), error));
             if (error != MP4_OK)
                 {
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
             break;
             }
@@ -1281,7 +1288,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoFrame, error=%d"), error));
             if (error != MP4_OK)
                 {
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
 
             if ((TUint)iBufferSize > iVideoBufferSize)
@@ -1308,7 +1315,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             if (error != MP4_OK)
                 {
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoDecoderSpecificInfo, error=%d"), error));
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
 
             break;
@@ -1353,7 +1360,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             if (error != MP4_OK)
                 {
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoFrame, error=%d"), error));
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
 
             if ((TUint)(iBufferSize) > iVideoBufferSize)
@@ -1412,7 +1419,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             if (error != MP4_OK)
                 {
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoFrame, error=%d"), error));
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
 
             if ((TUint)(iBufferSize) > iVideoBufferSize)
@@ -1449,7 +1456,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             if (error != MP4_OK)
                 {
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoDecoderSpecificInfo, error=%d"), error));
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
             break;
             }
@@ -1472,7 +1479,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
             if (error != MP4_OK)
                 {
                 PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteVideoDecoderSpecificInfo, error=%d"), error));
-                User::Leave(KErrGeneral);
+                User::Leave(KErrWrite);
                 }
             break;
             }
@@ -1503,7 +1510,7 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 if (error != MP4_OK)
                     {
                     PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeAddAudioDescription, error=%d"), error));
-                    User::Leave(KErrGeneral);
+                    User::Leave(KErrWrite);
                     }
                 }
 			PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL MP4ComposeWriteAudioDecoderSpecificInfo out"), error));
