@@ -1155,25 +1155,26 @@ void CCaeEngineImp::FindVideoUidsL(
         User::Leave( KErrNotSupported );
         }
 
-    // Get the controller UID.
-    iVideoControllerUid = controllers[0]->Uid();
-
-    // Inquires the controller about supported formats.
-    // We use the first controller found having index 0.
-    RMMFFormatImplInfoArray formats;
-    formats = controllers[0]->RecordFormats();
-
-    // Get the first format that supports our mime type.
-    
     TBool found( EFalse );
-
-    for ( TInt i = 0; i < formats.Count(); i++ )
+    for ( TInt contInd = 0; contInd < controllers.Count() && !found; contInd++ ) // there can be more than one controller, search from all of them
         {
-        if ( formats[i]->SupportsMimeType( aMimeType ) )
+        // Get the controller UID.
+        iVideoControllerUid = controllers[contInd]->Uid();
+        LOGTEXT3( _L("Cae: CCaeEngineImp::FindVideoUidsL() contInd=%d, Uid=%x"), contInd, iVideoControllerUid.iUid );
+
+        // Inquires the controller about supported formats.
+        RMMFFormatImplInfoArray formats = controllers[contInd]->RecordFormats();
+
+        // Get the first format that supports our mime type.
+        for ( TInt i = 0; i < formats.Count(); i++ )
             {
-            iVideoFormatUid = formats[i]->Uid(); // set the UID
-            found = ETrue;
-            break;
+            if ( formats[i]->SupportsMimeType( aMimeType ) )
+                {
+                iVideoFormatUid = formats[i]->Uid(); // set the UID
+                found = ETrue;
+                LOGTEXT3( _L("Cae: CCaeEngineImp::FindVideoUidsL() Found iVideoFormatUid=%x, index=%d"), iVideoFormatUid.iUid, i );
+                break;
+                }
             }
         }
     if ( !found )
