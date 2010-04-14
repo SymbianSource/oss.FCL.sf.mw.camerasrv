@@ -601,7 +601,7 @@ class CCMRVideoRecorder : public CCMRRecorderBase, public MCMRVideoSourceObserve
         CCMRReturnAO* iBufferReturnAO;
         
         // time between random access points
-        TInt iMinRandomAccessPeriodInSeconds;
+        TReal iMinRandomAccessPeriodInSeconds;
 
         // ETrue if we are using HW accelerated video encoder => affects e.g. on default settings such as framerate
         TBool iVideoCodecHWAccelerated;

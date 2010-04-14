@@ -903,10 +903,12 @@ void CCMRVideoRecorder::SetupEncoderL()
         iDevVideoRec->SetOutputFormatL(iPreProcessorHWDeviceId, preproOutputFormat);
     }
 
-    PRINT((_L("CCMRVideoRecorder::SetupEncoderL() MinRandomAccess= %d"), iMinRandomAccessPeriodInSeconds ));
+    PRINT((_L("CCMRVideoRecorder::SetupEncoderL() MinRandomAccess= %f"), iMinRandomAccessPeriodInSeconds ));
     if ( iConfig && iConfig->IsICMConfigDataAvailable() )
         {
-        iMinRandomAccessPeriodInSeconds = iConfig->VideoQualitySettings().iRandomAccessRate;
+        iMinRandomAccessPeriodInSeconds = TReal(1)/ iConfig->VideoQualitySettings().iRandomAccessRate;
+        PRINT((_L("CCMRVideoRecorder::SetupEncoderL() Set to iConfig iMinRandomAccessPeriodInSeconds= %f"), iMinRandomAccessPeriodInSeconds ));        
+        iDevVideoRec->SetMinRandomAccessRate( iConfig->VideoQualitySettings().iRandomAccessRate );
         }
     else
         {
@@ -914,18 +916,12 @@ void CCMRVideoRecorder::SetupEncoderL()
 	        {
 	        iMinRandomAccessPeriodInSeconds = KCMRMinRandomAccessPeriodHighRes;
 	        }
-        }
-    PRINT((_L("CCMRVideoRecorder::SetupEncoderL() Set to MinRandomAccess= %d"), iMinRandomAccessPeriodInSeconds ));
-
-    // Set random access in fps
-    if ( iMinRandomAccessPeriodInSeconds > 0 )
-        {
+        else 
+            {
+            iMinRandomAccessPeriodInSeconds = KCMRMinRandomAccessPeriod;
+            }
+        PRINT((_L("CCMRVideoRecorder::SetupEncoderL() Set to MinRandomAccess= %f"), iMinRandomAccessPeriodInSeconds ));        
         iDevVideoRec->SetMinRandomAccessRate( TReal(1) / TReal(iMinRandomAccessPeriodInSeconds) );
-        }
-    else
-        {
-        // there is no concept of disabling random access in MSL, hence use the default
-        iDevVideoRec->SetMinRandomAccessRate( TReal(1) / TReal(KCMRMinRandomAccessPeriod) );
         }
 
     CleanupStack::PopAndDestroy( comprFormat );
@@ -4099,7 +4095,7 @@ CCMRVideoRecorder::CCMRReturnAO* CCMRVideoRecorder::CCMRReturnAO::NewL(CCMRVideo
 // -----------------------------------------------------------------------------
 //
 CCMRVideoRecorder::CCMRReturnAO::CCMRReturnAO(CCMRVideoRecorder* aHost) :
-        CActive(EPriorityNormal),
+        CActive(CActive::EPriorityStandard),
         iVideoOutputBufferReturnQue(_FOFF(TVideoOutputBuffer,iLink)),
         iVideoOutputBufferReturnQueIter(iVideoOutputBufferReturnQue),
         iHost(aHost)
