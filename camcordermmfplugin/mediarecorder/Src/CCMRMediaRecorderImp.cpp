@@ -42,6 +42,11 @@
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRMediaRecorderImpTraces.h"
+#endif
+
 // ================= MEMBER FUNCTIONS =======================
 
 
@@ -93,13 +98,14 @@ EXPORT_C CCMRMediaRecorder* CCMRMediaRecorder::NewL()
 //
 void CCMRMediaRecorderImp::ConstructL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRMEDIARECORDERIMP_CONSTRUCTL, "e_CCMRMediaRecorderImp::ConstructL 1" );
     iState = EStateNone;
 
     // create video recorder
     iVideoRecorder = CCMRVideoRecorderClient::NewL();
     // create audio recorder
     iAudioRecorder = CCMRAudioRecorder::NewL();
-
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRMEDIARECORDERIMP_CONSTRUCTL, "e_CCMRMediaRecorderImp::ConstructL 0" );
     }
 
 // -----------------------------------------------------------------------------
@@ -109,6 +115,7 @@ void CCMRMediaRecorderImp::ConstructL()
 //
 CCMRMediaRecorderImp::~CCMRMediaRecorderImp()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp 1" );
     PRINT((_L("CCMRMediaRecorderImp::~CCMRMediaRecorderImp() in")));
     // note, adding "this->" below disabled a PC Lint warning since it makes State explicitly to refer to this class
     if ( (this->State() == EStateRecording) || (this->State() == EStatePaused) )
@@ -130,14 +137,22 @@ CCMRMediaRecorderImp::~CCMRMediaRecorderImp()
     iAudioSource = NULL;
 
 
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_AudioRecorder 1" );
     delete iAudioRecorder;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_AudioRecorder 0" );
     PRINT((_L("CCMRMediaRecorderImp::~CCMRMediaRecorderImp() iAudioRecorder deleted")));
     delete iPerfMonitor;
     delete iConfig;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP4_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_VideoRecorder 1" );
     delete iVideoRecorder;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP5_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_VideoRecorder 0" );
     PRINT((_L("CCMRMediaRecorderImp::~CCMRMediaRecorderImp() iVideoRecorder deleted")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP6_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_AudioOutput 1" );
     delete iAudioOutput;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP7_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_AudioOutput 0" );
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP8_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_VideoOutput 1" );
     delete iVideoOutput;
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP9_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp_delete_VideoOutput 0" );
 
     if ( iErrorReporter )
         {
@@ -146,6 +161,7 @@ CCMRMediaRecorderImp::~CCMRMediaRecorderImp()
         }
 
     PRINT((_L("CCMRMediaRecorderImp::~CCMRMediaRecorderImp() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRMEDIARECORDERIMP_CCMRMEDIARECORDERIMP, "e_CCMRMediaRecorderImp::~CCMRMediaRecorderImp 0" );
     //#pragma attol insert _ATCPQ_DUMP(0);
     }
 
@@ -162,6 +178,7 @@ void CCMRMediaRecorderImp::OpenL(MCMRMediaRecorderObserver *aObserver,
                                  TFourCC aAudioType)
 
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRMEDIARECORDERIMP_OPENL, "e_CCMRMediaRecorderImp::OpenL 1" );
     PRINT((_L("CCMRMediaRecorderImp::OpenL() in, thread id %x"),TInt(RThread().Id())));
     if ( State() != EStateNone )
         {
@@ -241,6 +258,7 @@ void CCMRMediaRecorderImp::OpenL(MCMRMediaRecorderObserver *aObserver,
 
     iState = EStateOpen;
     PRINT((_L("CCMRMediaRecorderImp::OpenL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRMEDIARECORDERIMP_OPENL, "e_CCMRMediaRecorderImp::OpenL 0" );
     }
 
 
@@ -810,6 +828,7 @@ void CCMRMediaRecorderImp::SetAudioPriorityL(const TMMFPrioritySettings& aPriori
 //
 void CCMRMediaRecorderImp::PrepareL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRMEDIARECORDERIMP_PREPAREL, "e_CCMRMediaRecorderImp::PrepareL 1" );
     PRINT((_L("CCMRMediaRecorderImp::PrepareL()")));
 
     if ( (State() != EStateOpen) && (State() != EStateReadyToRecord) )
@@ -879,6 +898,7 @@ void CCMRMediaRecorderImp::PrepareL()
             }
         }
 
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRMEDIARECORDERIMP_PREPAREL, "e_CCMRMediaRecorderImp::PrepareL 0" );
 
     }
 
@@ -965,6 +985,7 @@ void CCMRMediaRecorderImp::RecordL()
 //
 void CCMRMediaRecorderImp::StopL()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRMEDIARECORDERIMP_STOPL, "e_CCMRMediaRecorderImp::StopL 1" );
     PRINT((_L("CCMRMediaRecorderImp::StopL() in")));
     if ( (State() == EStateRecording) || (State() == EStatePaused) )
         {
@@ -1050,6 +1071,7 @@ void CCMRMediaRecorderImp::StopL()
         PRINT((_L("CCMRMediaRecorderImp::StopL() already stopped, ignoring")));
         }
     PRINT((_L("CCMRMediaRecorderImp::StopL() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRMEDIARECORDERIMP_STOPL, "e_CCMRMediaRecorderImp::StopL 0" );
     }
 
 // -----------------------------------------------------------------------------

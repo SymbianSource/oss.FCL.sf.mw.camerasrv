@@ -37,11 +37,16 @@
 // Debug print macro
 #ifdef _DEBUG
 #include <e32svr.h>
+
 #define PRINT(x) RDebug::Print x
 #else
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRAudioRecorderTraces.h"
+#endif
 
 
 
@@ -68,6 +73,7 @@ CCMRAudioRecorder::CCMRAudioRecorder()
 //
 CCMRAudioRecorder::~CCMRAudioRecorder()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRAUDIORECORDER_CCMRAUDIORECORDER, "e_CCMRAudioRecorder::~CCMRAudioRecorder 1" );
     PRINT((_L("CCMRAudioRecorder::~CCMRAudioRecorder() in")));
     
     delete iThreadEventMonitor;
@@ -88,6 +94,7 @@ CCMRAudioRecorder::~CCMRAudioRecorder()
     iAudioCodecs = NULL;
 
     PRINT((_L("CCMRAudioRecorder::~CCMRAudioRecorder() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRAUDIORECORDER_CCMRAUDIORECORDER, "e_CCMRAudioRecorder::~CCMRAudioRecorder 0" );
     }
 
 

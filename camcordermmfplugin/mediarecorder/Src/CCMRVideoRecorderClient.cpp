@@ -38,6 +38,10 @@
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CCMRVideoRecorderClientTraces.h"
+#endif
 
 
 // ================= MEMBER FUNCTIONS =======================
@@ -88,6 +92,7 @@ void CCMRVideoRecorderClient::ConstructL()
 //
 CCMRVideoRecorderClient::~CCMRVideoRecorderClient()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCMRVIDEORECORDERCLIENT_CCMRVIDEORECORDERCLIENT, "e_CCMRVideoRecorderClient::~CCMRVideoRecorderClient 1" );
 
     PRINT((_L("CCMRVideoRecorderClient::~CCMRVideoRecorderClient() in")));
 
@@ -113,6 +118,7 @@ CCMRVideoRecorderClient::~CCMRVideoRecorderClient()
     // enable for RTRT code coverage
     //#pragma attol insert _ATCPQ_DUMP(0);
     PRINT((_L("CCMRVideoRecorderClient::~CCMRVideoRecorderClient() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCMRVIDEORECORDERCLIENT_CCMRVIDEORECORDERCLIENT, "e_CCMRVideoRecorderClient::~CCMRVideoRecorderClient 0" );
     }
 
 // ---------------------------------------------------------

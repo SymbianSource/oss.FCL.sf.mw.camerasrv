@@ -39,6 +39,11 @@
 #define PRINT(x)
 #endif
 
+#include "OstTraceDefinitions.h"
+#ifdef OST_TRACE_COMPILER_IN_USE
+#include "CamC3GPDataSinkImpTraces.h"
+#endif
+
 // CONSTANTS
 const TUint   KVideoAverageBitRate   = 48000;     // Default average bitrate for video
 const TUint   KVideoMaxBitRate       = 64000;     // Default maximum bitrate for video
@@ -96,6 +101,7 @@ EXPORT_C CCamC3GPDataSink* CCamC3GPDataSink::NewL(M3GPDataSinkObserver *aObserve
 //
 CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp(void)
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_CCAMC3GPDATASINKIMP, "e_CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp 1" );
     PRINT(_L("CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp enter"));
 
     if ( iFileName != KNullDesC )
@@ -139,6 +145,7 @@ CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp(void)
     delete iDeleteFileQueue;
     iDeleteFileQueue = 0;
     PRINT(_L("CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp exit"));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_CCAMC3GPDATASINKIMP, "e_CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp 0" );
     }
 
 
@@ -150,6 +157,7 @@ CCamC3GPDataSinkImp::~CCamC3GPDataSinkImp(void)
 //
 void CCamC3GPDataSinkImp::ConstructL(M3GPDataSinkObserver *aObserver)
 	{
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_CONSTRUCTL, "e_CCamC3GPDataSinkImp::ConstructL 1" );
     PRINT(_L("CCamC3GPDataSinkImp::ConstructL enter"));
     iObserver = aObserver;
 
@@ -209,6 +217,7 @@ void CCamC3GPDataSinkImp::ConstructL(M3GPDataSinkObserver *aObserver)
     iIdleDelete = CIdle::NewL( CActive::EPriorityIdle );
 
     PRINT(_L("CCamC3GPDataSinkImp::ConstructL exit"));
+	OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_CONSTRUCTL, "e_CCamC3GPDataSinkImp::ConstructL 0" );
 	}
 
 // -----------------------------------------------------------------------------
@@ -238,6 +247,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
     {
     MP4Err    error;
 
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_OPENFILEL, "e_CCamC3GPDataSinkImp::OpenFileL 1" );
     PRINT((_L("CCamC3GPDataSinkImp::OpenFileL TFileName enter")));
 
     if (iMP4Handle)
@@ -261,6 +271,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
     iFileName = aFileName;
     TInt errorcode;
 
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAMC3GPDATASINKIMP_OPENFILEL, "e_CCamC3GPDataSinkImp::OpenFileL_create_temp_files 1" );
     if (!iFS) // Don't allocate new file server, if there is one already
         {
         iFS = new (ELeave) RFs;
@@ -350,6 +361,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
         }
 
     PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Temp files cleared")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP3_CCAMC3GPDATASINKIMP_OPENFILEL, "e_CCamC3GPDataSinkImp::OpenFileL_create_temp_files 0" );
 
     // Find used audio codec
     if ( ( aAudioCodecType == TFourCC(KCMRFourCCIdAMRNB) ) ) // AMR-NB
@@ -729,6 +741,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
         }
 
     PRINT((_L("CCamC3GPDataSinkImp::OpenFileL exit")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_OPENFILEL, "e_CCamC3GPDataSinkImp::OpenFileL 0" );
     }
 
 
@@ -989,10 +1002,12 @@ void CCamC3GPDataSinkImp::SinkStopL()
     {
     MP4Err  error;
 
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_SINKSTOPL, "e_CCamC3GPDataSinkImp::SinkStopL 1" );
     PRINT((_L("CCamC3GPDataSinkImp::SinkStopL enter")));
 
     if (!iMP4Handle)
         {
+        OstTrace0( CAMERASRV_PERFORMANCE, DUP2_CCAMC3GPDATASINKIMP_SINKSTOPL, "e_CCamC3GPDataSinkImp::SinkStopL 0" );
         return;
         }
 
@@ -1110,6 +1125,7 @@ void CCamC3GPDataSinkImp::SinkStopL()
         }
 
     PRINT((_L("CCamC3GPDataSinkImp::SinkStopL exit")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_SINKSTOPL, "e_CCamC3GPDataSinkImp::SinkStopL 0" );
     }
 
 
@@ -2214,6 +2230,7 @@ void CCamC3GPDataSinkImp::ConvertNALEncapsulationToNALSizes( CCMRMediaBuffer* aB
 //
 void CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName( MP4FileName tempFileName )
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_M3GPMP4LIBDELETETEMPFILENAME, "e_CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName 1" );
     PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName entering")));
     MP4FileName* tempFileNamePtr = NULL;
     TInt result = KErrNoMemory;
@@ -2254,6 +2271,7 @@ void CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName( MP4FileName tempFileName
         }
 
     PRINT((_L("CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName exiting")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_M3GPMP4LIBDELETETEMPFILENAME, "e_CCamC3GPDataSinkImp::M3GPMP4LibDeleteTempFileName 0" );
     }
 
 
@@ -2273,6 +2291,7 @@ TInt CCamC3GPDataSinkImp::IdleDelete( TAny* aCont )
 //
 TInt CCamC3GPDataSinkImp::DoIdleDelete()
     {
+    OstTrace0( CAMERASRV_PERFORMANCE, CCAMC3GPDATASINKIMP_DOIDLEDELETE, "e_CCamC3GPDataSinkImp::DoIdleDelete 1" );
     PRINT((_L("CCamC3GPDataSinkImp::DoIdleDelete() in")));
     TInt err = KErrNone;
     MP4FileName tempFileName;
@@ -2304,6 +2323,7 @@ TInt CCamC3GPDataSinkImp::DoIdleDelete()
         }
 
     PRINT((_L("CCamC3GPDataSinkImp::DoIdleDelete() out")));
+    OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_DOIDLEDELETE, "e_CCamC3GPDataSinkImp::DoIdleDelete 0" );
     return ( filesLeft );
     }
 

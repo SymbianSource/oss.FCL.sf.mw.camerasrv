@@ -32,7 +32,8 @@ SOURCE          CamC3GPDataSinkImp.cpp
 
 USERINCLUDE     ../Inc
 USERINCLUDE     ../../mediarecorder/Inc
-USERINCLUDE	    ../../../inc   // ADo level inc dir
+USERINCLUDE	../../../inc   // ADo level inc dir
+USERINCLUDE	../traces
 
 // Default system include paths for application layer modules.
 MW_LAYER_SYSTEMINCLUDE
