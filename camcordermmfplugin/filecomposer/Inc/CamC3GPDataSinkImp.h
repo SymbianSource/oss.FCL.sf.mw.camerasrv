@@ -235,6 +235,30 @@ class CCamC3GPDataSinkImp : public CCamC3GPDataSink, public M3GPMP4LibAsyncTempF
         * @return None
         */
         void ConvertNALEncapsulationToNALSizes( CCMRMediaBuffer* aBuffer );
+        
+        /**
+        * Compose UDTA (User Data) to video file
+        * @since 5.2
+        * @param None
+        * @return None
+        */
+        void ComposeUDTAL();
+        
+        /**
+        * Convert 32bit unsigned value to little endian format into buffer
+        * @since 5.2
+        * @param None
+        * @return None
+        */
+        void LittleEndianPut32(TUint8 *aPtr, TUint32 aVal);
+
+        /**
+        * Convert 16bit unsigned value to little endian format into buffer
+        * @since 5.2
+        * @param None
+        * @return None
+        */
+        void LittleEndianPut16(TUint8 *aPtr, TUint16 aVal);
 
     private:
 

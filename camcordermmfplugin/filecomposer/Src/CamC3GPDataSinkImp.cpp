@@ -740,6 +740,15 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
         PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Setting async file remover handler FAILED")));
         }
 
+    if ((iFileCodecType & MP4_TYPE_MPEG4_VIDEO)    ||
+        (iFileCodecType & MP4_TYPE_AVC_PROFILE_BASELINE) ||
+        (iFileCodecType & MP4_TYPE_AVC_PROFILE_MAIN) ||
+        (iFileCodecType & MP4_TYPE_AVC_PROFILE_HIGH))
+        {
+        PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Composing UDTA atom")));
+        ComposeUDTAL();
+        }
+
     PRINT((_L("CCamC3GPDataSinkImp::OpenFileL exit")));
     OstTrace0( CAMERASRV_PERFORMANCE, DUP1_CCAMC3GPDATASINKIMP_OPENFILEL, "e_CCamC3GPDataSinkImp::OpenFileL 0" );
     }
@@ -2222,6 +2231,73 @@ void CCamC3GPDataSinkImp::ConvertNALEncapsulationToNALSizes( CCMRMediaBuffer* aB
     iVideoBufferFrameSize = outputOffset;
     PRINT((_L("CCamC3GPDataSinkImp::ConvertNALEncapsulationToNALSizes() new video buffer size: %d "), iVideoBufferFrameSize ));
     PRINT((_L("CCamC3GPDataSinkImp::ConvertNALEncapsulationToNALSizes out")));
+    }
+
+// -----------------------------------------------------------------------------
+// CCamC3GPDataSinkImp::ComposeUDTA
+//
+// Compose UDTA (User Data) to video file
+// -----------------------------------------------------------------------------
+//
+void CCamC3GPDataSinkImp::ComposeUDTAL()
+    {
+    mp4_u32 udtaBufferSize = 10240;
+    HBufC8* udtaBuffer = HBufC8::NewL(udtaBufferSize);
+    TUint8* buf = CONST_CAST(TUint8*, udtaBuffer->Ptr());
+    CleanupStack::PushL(udtaBuffer);
+    udtaBuffer->Des().FillZ(udtaBuffer->Des().MaxLength());
+
+    mp4_u32  i = 0;
+    
+    // Compose free atom 
+    // BoxHeader.Size      Unsigned int(32)  size of free atom
+    LittleEndianPut32(buf+i, (mp4_u32)udtaBufferSize-i);
+    i += 4;
+    // BoxHeader.Type      Unsigned int(32)    'free'
+    LittleEndianPut32(buf+i, (mp4_u32)0x66726565); //'free' indentifier for free atom
+    
+    
+    MP4Err error;
+    mp4_u8 udtalocation = MP4_UDTA_MOOV; // store UDTA to moov e.g. movie structure instead of individual track.
+    error = MP4ComposeSetUserDataAtom(iMP4Handle, udtalocation, (mp4_u8 *)udtaBuffer->Des().Ptr(), udtaBufferSize);
+    
+    if ( error )
+        {
+        PRINT((_L("CCamC3GPDataSinkImp::MP4ComposeSetUserDataAtom error=%d"), error));
+        User::Leave(KErrGeneral);    
+        }
+
+    CleanupStack::PopAndDestroy(udtaBuffer);
+    }
+
+// -----------------------------------------------------------------------------
+// CCamC3GPDataSinkImp::LittleEndianPut32
+//
+// Convert 32bit unsigned value to little endian format into buffer
+// -----------------------------------------------------------------------------
+//
+void CCamC3GPDataSinkImp::LittleEndianPut32(TUint8 *aPtr, TUint32 aVal)
+    {
+    mp4_u32 result;
+    ((mp4_u8 *)&result)[0] = ((mp4_u8 *)&aVal)[3];
+    ((mp4_u8 *)&result)[1] = ((mp4_u8 *)&aVal)[2];
+    ((mp4_u8 *)&result)[2] = ((mp4_u8 *)&aVal)[1];
+    ((mp4_u8 *)&result)[3] = ((mp4_u8 *)&aVal)[0];
+    memcpy(aPtr, &result, 4);
+    }
+
+// -----------------------------------------------------------------------------
+// CCamC3GPDataSinkImp::LittleEndianPut16
+//
+// Convert 16bit unsigned value to little endian format into buffer
+// -----------------------------------------------------------------------------
+//
+void CCamC3GPDataSinkImp::LittleEndianPut16(TUint8 *aPtr, TUint16 aVal)
+    {
+    mp4_u16 result;
+    ((mp4_u8 *)&result)[0] = ((mp4_u8 *)&aVal)[1];
+    ((mp4_u8 *)&result)[1] = ((mp4_u8 *)&aVal)[0];
+    memcpy(aPtr, &result, 2);
     }
 
 // -----------------------------------------------------------------------------
