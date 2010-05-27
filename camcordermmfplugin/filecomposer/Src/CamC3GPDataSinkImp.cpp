@@ -323,7 +323,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
     errorcode = iFS->SetAtt( iFileName, KEntryAttNormal, KEntryAttReadOnly );
     PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Deleting File: '%s'"), iFileName.Ptr()));
     errorcode = iFS->Delete(iFileName);
-    PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Deleting File Error: %d"), errorcode));
+    PRINT((_L("CCamC3GPDataSinkImp::OpenFileL Deleting File Error: %d   if error is -1 its ok - means same name file doesn't exists."), errorcode));
 
     if ( errorcode == KErrInUse && iMMFFile )
         {
@@ -1396,7 +1396,6 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 }
 
             ConvertNALEncapsulationToNALSizes( aBuffer );
-
             iVideoBufferTimestamp = iVideoTimestamp;
             iVideoBufferRandomAccessPoint = iVideoRandomAccessPoint;
             break;
@@ -1427,8 +1426,6 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                     }
 
                 ConvertBytestreamHeadersToNALSizes(aBuffer);
-                Mem::Copy(iVideoBuffer, aBuffer->Data().Ptr(), iBufferSize);
-                iVideoBufferFrameSize = iBufferSize;
                 break;
                 }
 
@@ -1455,9 +1452,6 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 }
 
             ConvertBytestreamHeadersToNALSizes(aBuffer);
-            Mem::Copy(iVideoBuffer, aBuffer->Data().Ptr(), iBufferSize);
-
-            iVideoBufferFrameSize = (TUint)iBufferSize;
             iVideoBufferTimestamp = iVideoTimestamp;
             iVideoBufferRandomAccessPoint = iVideoRandomAccessPoint;
             break;
@@ -1988,25 +1982,23 @@ void CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL( CCMRMediaBuffer* aBuffer,
     	{
     	if ( inputPtr[i] == 0 &&
     		 inputPtr[i+1] == 0 &&
-    		 inputPtr[i+2] == 0 &&
-    		 inputPtr[i+3] == 1 )
-    		{ // found bytestream header [00 00 00 01]
+    		 inputPtr[i+2] == 1 )
+    		{ // found bytestream header [(00) 00 00 01]
     	    PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL found header at: %d"), i));
-    	   	nalType = inputPtr[i+4] & 0x1F;
+    	   	nalType = inputPtr[i+3] & 0x1F;
             PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL NAL type: %d"), nalType));
     	   	if(nalType == 7) // SPS
     	   		{
     	   		numSPS++;
     	   		// find length of SPS
     	   		TInt j;
-    	   		for (j=4; i+j+3<headerLength; j++)
+    	   		for (j=3; i+j+3<headerLength; j++)
     	   			{
     	   	    	if ( inputPtr[i+j] == 0 &&
     	   	    		 inputPtr[i+j+1] == 0 &&
-    	   	    		 inputPtr[i+j+2] == 0 &&
-    	   	    		 inputPtr[i+j+3] == 1 )
+    	   	    		 inputPtr[i+j+2] == 1 )
     	   	    		{
-    	   	    		totalSPSLength = j-i-4;
+    	   	    		totalSPSLength = j-i-3;
     	   	            PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL SPS length: %d, count: %d"), totalSPSLength, numSPS));
     	   	    		break;
     	   	    		}
@@ -2014,7 +2006,7 @@ void CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL( CCMRMediaBuffer* aBuffer,
     	   		// if we didn't find next bytestream header then this is last buffer
     	   		if ( totalSPSLength == 0 )
     	   			{
-    	   			totalSPSLength = headerLength - i - 4;
+    	   			totalSPSLength = headerLength - i - 3;
                     PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL SPS length: %d (last), count: %d"), totalSPSLength, numSPS));
     	   			}
 
@@ -2023,21 +2015,20 @@ void CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL( CCMRMediaBuffer* aBuffer,
         		spsPtr[1] = totalSPSLength & 0xFF;
 
         		// Copy the SPS unit to the buffer
-    			Mem::Copy(&spsPtr[2], &inputPtr[i+4] , totalSPSLength);
+    			Mem::Copy(&spsPtr[2], &inputPtr[i+3] , totalSPSLength);
     			totalSPSLength +=2;
     	   		}
     	   	else if ( nalType == 8 ) // PPS)
     	   		{
     	   		numPPS++;
     	   		// find length of PPS
-    	   		for (j=4; i+j+3<headerLength; j++)
+    	   		for (j=3; i+j+3<headerLength; j++)
     	   			{
     	   	    	if ( inputPtr[i+j] == 0 &&
     	   	    		 inputPtr[i+j+1] == 0 &&
-    	   	    		 inputPtr[i+j+2] == 0 &&
-    	   	    		 inputPtr[i+j+3] == 1 )
+    	   	    		 inputPtr[i+j+2] == 1 )
     	   	    		{
-    	   	    		totalPPSLength = j-i-4;
+    	   	    		totalPPSLength = j-i-3;
                         PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL PPS length: %d, count: %d"), totalPPSLength, numPPS));
     	   	    		break;
     	   	    		}
@@ -2045,7 +2036,7 @@ void CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL( CCMRMediaBuffer* aBuffer,
     	   		// if we didn't find next bytestream header then this is last buffer
     	   		if ( totalPPSLength == 0 )
     	   			{
-    	   			totalPPSLength = headerLength - i - 4;
+    	   			totalPPSLength = headerLength - i - 3;
                     PRINT((_L("CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL PPS length: %d (last), count: %d"), totalPPSLength, numPPS));
     	   			}
 
@@ -2054,7 +2045,7 @@ void CCamC3GPDataSinkImp::ConvertAVCHeaderByteStreamL( CCMRMediaBuffer* aBuffer,
     	   		ppsPtr[1] = totalPPSLength & 0xFF;
 
     			// Copy the SPS unit to the buffer
-    			Mem::Copy(&ppsPtr[2], &inputPtr[i+4], totalPPSLength);
+    			Mem::Copy(&ppsPtr[2], &inputPtr[i+3], totalPPSLength);
     	   		totalPPSLength +=2;
     	   		}
     		}
@@ -2137,38 +2128,46 @@ void CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizes( CCMRMediaBuffer* a
     PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL buffer length: %d"), headerLength));
 
     TInt nalLength = 0;
+    TInt outputOffset = 0;
     TBool moreThanOneNAL = EFalse;
     TInt i = 0;
     TInt j = 0;
-    for (i=0; i<headerLength; i++)
+    for (i=0; i<headerLength-2; i++)
         {
         if ( inputPtr[i] == 0 &&
              inputPtr[i+1] == 0 &&
-             inputPtr[i+2] == 0 &&
-             inputPtr[i+3] == 1 )
-            { // found bytestream header [00 00 00 01]
+             inputPtr[i+2] == 1 )
+            { // found bytestream header [(00) 00 00 01]
             PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL found header at: %d"), i));
-            PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL NAL type: %d"), TInt(inputPtr[i+4] & 0x1F) ));
+            PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL NAL type: %d"), TInt(inputPtr[i+3] & 0x1F) ));
             if (moreThanOneNAL)
                 {// we found start of next NAL unit in memory buffer so update previous size
-                nalLength = i-j-4; // 4 is the bytestream header
-                PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL NAL length: %d"), nalLength));
-                inputPtr[j] = TUint8((nalLength >> 24) & 0xff);
-                inputPtr[j+1] = TUint8((nalLength >> 16) & 0xff);
-                inputPtr[j+2] = TUint8((nalLength >> 8) & 0xff);
-                inputPtr[j+3] = TUint8(nalLength & 0xff);
+                nalLength = i-j-3; // 3 is the bytestream header
+                PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL NAL length: %d, toPos: %d"), nalLength, outputOffset));
+                iVideoBuffer[outputOffset] = TUint8((nalLength >> 24) & 0xff);
+                iVideoBuffer[outputOffset+1] = TUint8((nalLength >> 16) & 0xff);
+                iVideoBuffer[outputOffset+2] = TUint8((nalLength >> 8) & 0xff);
+                iVideoBuffer[outputOffset+3] = TUint8(nalLength & 0xff);
+                PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL copy to:%d, from:%d, amount:%d"), outputOffset+4, j+3, nalLength ));
+                Mem::Copy(iVideoBuffer+outputOffset+4, inputPtr+j+3, nalLength);
+                outputOffset += 4 + nalLength; // 4 bytes for length information.   
                 }
             moreThanOneNAL = ETrue;
             j=i;
             }
         }
     // and update last (or if only 1 NAL size:
-    nalLength = headerLength-j-4; // 4 is the bytestream header
-    PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL last NAL length: %d"), nalLength));
-    inputPtr[j] = TUint8((nalLength >> 24) & 0xff);
-    inputPtr[j+1] = TUint8((nalLength >> 16) & 0xff);
-    inputPtr[j+2] = TUint8((nalLength >> 8) & 0xff);
-    inputPtr[j+3] = TUint8(nalLength & 0xff);
+    nalLength = headerLength-j-3; // 3 is the bytestream header
+    PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL last NAL length: %d, toPos: %d"), nalLength, outputOffset));
+    iVideoBuffer[outputOffset] = TUint8((nalLength >> 24) & 0xff);
+    iVideoBuffer[outputOffset+1] = TUint8((nalLength >> 16) & 0xff);
+    iVideoBuffer[outputOffset+2] = TUint8((nalLength >> 8) & 0xff);
+    iVideoBuffer[outputOffset+3] = TUint8(nalLength & 0xff);
+    PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL copy to:%d, from:%d, amount:%d"), outputOffset+4, j+3, nalLength ));    
+    Mem::Copy(iVideoBuffer+outputOffset+4, inputPtr+j+3, nalLength);
+    
+    outputOffset += 4 + nalLength; // 4 bytes for length information.
+    iVideoBufferFrameSize = outputOffset;
     PRINT((_L("CCamC3GPDataSinkImp::ConvertBytestreamHeadersToNALSizesL out")));
 }
 
