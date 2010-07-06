@@ -48,7 +48,7 @@ RESOURCE REGISTRY_INFO theInfo
 					version_no = 1;
 					display_name = "Camcorder controller";
 					default_data = "?";
-					opaque_data = "<s>Nokia<i>0x101F5D08<r>0x101F850D<a>0x500000";
+					opaque_data = "<s>Nokia<i>0x101F5D08<r>0x101F850D<a>0xC00000";
 					}
 				};
 			},
