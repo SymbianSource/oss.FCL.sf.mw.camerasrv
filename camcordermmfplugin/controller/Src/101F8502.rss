@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -48,7 +48,7 @@ RESOURCE REGISTRY_INFO theInfo
 					version_no = 1;
 					display_name = "Camcorder controller";
 					default_data = "?";
-					opaque_data = "<s>Nokia<i>0x101F5D08<r>0x101F850D<a>0xC00000";
+					opaque_data = "<s>Nokia<i>0x101F5D08<r>0x101F850D<a>0xC00000<t>0x8000";
 					}
 				};
 			},
