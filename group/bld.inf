@@ -21,7 +21,6 @@
 #include "../camerasrv_plat/group/bld.inf"
 
 #include "../configmanagers/group/bld.inf"
-#include "../camappengine/Build/bld.inf"
 #include "../camcordermmfplugin/Build/bld.inf"
 
 PRJ_EXPORTS

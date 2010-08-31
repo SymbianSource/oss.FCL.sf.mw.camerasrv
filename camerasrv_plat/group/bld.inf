@@ -19,10 +19,7 @@
 
 
 #include "../media_recorder_sink_api/group/bld.inf"
-#include "../cae_extentension_api/group/bld.inf"
-#include "../camera_application_engine_api/group/bld.inf"
 #include "../custom_onboard_camera_api/group/bld.inf"
 #include "../imaging_configuration_manager_api/group/bld.inf"
 #include "../media_recorder_api/group/bld.inf"
 #include "../3gp_file_composer_api/group/bld.inf"
-#include "../asynchronous_file_saving_queue_api/group/bld.inf"

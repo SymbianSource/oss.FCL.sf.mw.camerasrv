@@ -1,6 +1,0 @@
-EXPORTS
-	NewL__10CCaeEngine @ 1 NONAME R3UNUSED ; CCaeEngine::NewL(void)
-	NewL__10CCaeEnginei @ 2 NONAME R3UNUSED ; CCaeEngine::NewL(int)
-	CamerasAvailable__10CCaeEngine @ 3 NONAME R3UNUSED ; CCaeEngine::CamerasAvailable(void)
-	NewL__10CCaeEngineii @ 4 NONAME R3UNUSED ; CCaeEngine::NewL(int, int)
-

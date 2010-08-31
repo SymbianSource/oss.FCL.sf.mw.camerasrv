@@ -1,6 +1,0 @@
-EXPORTS
-	?NewL@CCaeEngine@@SAPAV1@XZ @ 1 NONAME ; public: static class CCaeEngine * __cdecl CCaeEngine::NewL(void)
-	?NewL@CCaeEngine@@SAPAV1@H@Z @ 2 NONAME ; public: static class CCaeEngine * __cdecl CCaeEngine::NewL(int)
-	?CamerasAvailable@CCaeEngine@@SAHXZ @ 3 NONAME ; public: static int __cdecl CCaeEngine::CamerasAvailable(void)
-	?NewL@CCaeEngine@@SAPAV1@HH@Z @ 4 NONAME ; public: static class CCaeEngine * __cdecl CCaeEngine::NewL(int,int)
-
