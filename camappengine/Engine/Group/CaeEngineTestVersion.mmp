@@ -1,0 +1,113 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Camera Application Engine (TEST VERSION!)
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET      CaeEngine.dll
+TARGETTYPE  dll
+
+UID         0x1000008d 0x101F8569
+
+CAPABILITY  CAP_GENERAL_DLL
+VENDORID    VID_DEFAULT
+
+
+// Define directories for the .def-files of WINS and WINSCW builds separately.
+// IMPORTANT NOTICE:  The lines in the example that end with a backslash 
+// must have one space after the backslash.
+#if defined(ARMCC)
+deffile ../Eabi/ 
+#elif defined( WINSCW )
+deffile ../Bwinscw/ 
+#elif defined( WINS )
+deffile ../Bwins/ 
+#else
+deffile ../Bmarm/ 
+#endif
+
+// To compile error simulations in.
+MACRO       CAE_TEST_VERSION 
+#define     CAE_TEST_VERSION
+
+SOURCEPATH  ../Src       
+
+SOURCE      CaeEngineImpStillAndVf.cpp
+SOURCE      CaeEngineImpVideoRecording.cpp
+SOURCE      CaeEngineImpInfo.cpp
+SOURCE      CaeQualityLevels.cpp
+SOURCE      CaeStillQualityLevels.cpp
+SOURCE      CaeVideoQualityLevels.cpp
+SOURCE      CaeVideoTimes.cpp
+SOURCE      CaeCallbackActive.cpp
+SOURCE      CaeStillStatesActive.cpp
+SOURCE      CaeExtension.cpp
+
+// Possible definition in features.hrh
+#ifdef __CAE_VR_CUSTOM_COMMANDS
+SOURCE      CaeEngineImpVideoNameCustom.cpp
+#else
+SOURCE      CaeEngineImpVideoName.cpp
+#endif
+
+// Can be removed from here when available in platform.
+// #define     __CAMERA_BURST_MODE
+
+#ifdef __CAMERA_BURST_MODE
+SOURCE      CaeImageItem.cpp
+SOURCE      CaeStillBurst.cpp
+SOURCE      CaeEngineImpStillBurstSupport.cpp
+#else
+SOURCE      CaeEngineImpNoStillBurst.cpp
+#endif
+
+SOURCE      CaeQualityLevelsNoSd.cpp
+SOURCE      CaeStillQualityLevelsNoSd.cpp
+SOURCE      CaeVideoQualityLevelsNoSd.cpp
+
+SOURCE      CaeDbgUtilities.cpp
+
+#ifdef CAE_TEST_VERSION
+SOURCE      CaeEngineImpTestErrors.cpp
+#endif
+
+USERINCLUDE ../Inc
+USERINCLUDE ../../StillConverter/Inc
+USERINCLUDE	../../../inc      // MW level inc dir
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY     euser.lib
+LIBRARY     fbscli.lib
+LIBRARY	    hal.lib
+LIBRARY     ECAM.lib
+LIBRARY     MMFControllerFramework.lib
+LIBRARY     mediaclientvideo.lib
+LIBRARY     CaeStillConverter.lib
+LIBRARY     ExifLib.lib
+LIBRARY     efsrv.lib
+LIBRARY     imageconversion.lib
+
+#ifdef EABI
+library ECOM.LIB
+#endif
+
+// LIBRARY flogger.lib // Enable if USE_FILE_LOGGER is defined
+
+EXPORTUNFROZEN
+
+// End of File

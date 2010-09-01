@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,17 +11,7 @@
 *
 * Contributors:
 *
-* Description:  camerasrv bld.inf
+* Description: STIFAFSQTestBlocks.cpp
 *
 */
 
-
-#include <platform_paths.hrh>
-
-#include "../camerasrv_plat/group/bld.inf"
-
-#include "../configmanagers/group/bld.inf"
-#include "../camappengine/Build/bld.inf"
-#include "../camcordermmfplugin/Build/bld.inf"
-
-PRJ_EXPORTS

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="acf6a16935ae7142aec592119a60f037" dataversion="2.0">
+<name>CAE Extentension API</name>
+<description>Interface that every ECom Plug-in extension of the Camera Application Engine should implement. It is used by the Camera Application Engine to create/initialize and to destroy the extension.  At creation phase the ECom Plug-in extension using a callback can find out what the Camera Application Engine supports or in other terms is it compatible with it and register its custom and extension interfaces to the Camera Application Engine. The callback is used for registering custom extensions, registering services and querying supported callbacks, services and properties of the Camera Application Engine. Services that Camera Application Engine's ECom Plug-in extensions can provide to the Camera Application Engine are mainly related to some events happened in the Camera Application Engine like changing the settings of Camera Application Engine, aquiring a new still image etc. When a certain event happens in Camera Application Engine all the related services  registered by the ECom Plug-in extensions are called by the Camera Application Engine.</description>
+<type>c++</type>
+<collection>CamAppEngine</collection>
+<libs><lib name="CaeEngine.lib"/>
+</libs>
+<release category="platform" sinceversion="0"/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

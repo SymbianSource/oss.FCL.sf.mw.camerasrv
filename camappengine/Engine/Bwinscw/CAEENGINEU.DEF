@@ -1,0 +1,6 @@
+EXPORTS
+	?NewL@CCaeEngine@@SAPAV1@XZ @ 1 NONAME ; class CCaeEngine * CCaeEngine::NewL(void)
+	?NewL@CCaeEngine@@SAPAV1@H@Z @ 2 NONAME ; class CCaeEngine * CCaeEngine::NewL(int)
+	?CamerasAvailable@CCaeEngine@@SAHXZ @ 3 NONAME ; int CCaeEngine::CamerasAvailable(void)
+	?NewL@CCaeEngine@@SAPAV1@HH@Z @ 4 NONAME ; class CCaeEngine * CCaeEngine::NewL(int, int)
+

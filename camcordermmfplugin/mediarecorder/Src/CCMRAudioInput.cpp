@@ -45,10 +45,6 @@ const TInt KCMRNumAudioBuffers = 10;
 #define PRINT(x)
 #endif
 
-// Unused parameter macro
-#define UNUSED(x) (void)x;
-
-
 #include "OstTraceDefinitions.h"
 #ifdef OST_TRACE_COMPILER_IN_USE
 #include "CCMRAudioInputTraces.h"
@@ -974,7 +970,6 @@ void CCMRAudioInput::InitializeComplete(TInt aError)
 //
 void CCMRAudioInput::ToneFinished(TInt aError)
     {
-    UNUSED(aError);
     PRINT((_L("CCMRAudioInput::ToneFinished(), error:%d"), aError));
     }
 
@@ -995,7 +990,6 @@ void CCMRAudioInput::BufferToBeFilled(CMMFBuffer* /*aBuffer*/)
 //
 void CCMRAudioInput::PlayError(TInt aError)
     {
-    UNUSED(aError);
     PRINT((_L("CCMRAudioInput::PlayError(), error:%d"), aError));
     }
 
@@ -1035,7 +1029,6 @@ void CCMRAudioInput::RecordError(TInt aError)
 //
 void CCMRAudioInput::ConvertError(TInt aError)
     {
-    UNUSED(aError);
     PRINT((_L("CCMRAudioInput::ConvertError(), error:%d"), aError));
     }
 

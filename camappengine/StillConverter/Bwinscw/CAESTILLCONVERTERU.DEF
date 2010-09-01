@@ -1,0 +1,14 @@
+EXPORTS
+	??1CCaeStillDecoder@@UAE@XZ @ 1 NONAME ; CCaeStillDecoder::~CCaeStillDecoder(void)
+	??1CCaeStillEncoder@@UAE@XZ @ 2 NONAME ; CCaeStillEncoder::~CCaeStillEncoder(void)
+	?Cleanup@CCaeStillDecoder@@QAEXXZ @ 3 NONAME ; void CCaeStillDecoder::Cleanup(void)
+	?Cleanup@CCaeStillEncoder@@QAEXXZ @ 4 NONAME ; void CCaeStillEncoder::Cleanup(void)
+	?CompressionQuality@CCaeStillEncoder@@QBEHXZ @ 5 NONAME ; int CCaeStillEncoder::CompressionQuality(void) const
+	?ConvertCFbsBitmapToHBufC8L@CCaeStillEncoder@@QAEXPAVCFbsBitmap@@W4TTargetFormat@1@@Z @ 6 NONAME ; void CCaeStillEncoder::ConvertCFbsBitmapToHBufC8L(class CFbsBitmap *, enum CCaeStillEncoder::TTargetFormat)
+	?ConvertHBufC8ToCFbsBitmapL@CCaeStillDecoder@@QAEXPAVHBufC8@@W4TDisplayMode@@ABVTSize@@2@Z @ 7 NONAME ; void CCaeStillDecoder::ConvertHBufC8ToCFbsBitmapL(class HBufC8 *, enum TDisplayMode, class TSize const &, class TSize const &)
+	?NewL@CCaeStillDecoder@@SAPAV1@XZ @ 8 NONAME ; class CCaeStillDecoder * CCaeStillDecoder::NewL(void)
+	?NewL@CCaeStillEncoder@@SAPAV1@XZ @ 9 NONAME ; class CCaeStillEncoder * CCaeStillEncoder::NewL(void)
+	?SetCompressionQuality@CCaeStillEncoder@@QAEXH@Z @ 10 NONAME ; void CCaeStillEncoder::SetCompressionQuality(int)
+	?SetObserver@CCaeStillDecoder@@QAEXPAVMCaeStillDecoderObserver@@@Z @ 11 NONAME ; void CCaeStillDecoder::SetObserver(class MCaeStillDecoderObserver *)
+	?SetObserver@CCaeStillEncoder@@QAEXPAVMCaeStillEncoderObserver@@@Z @ 12 NONAME ; void CCaeStillEncoder::SetObserver(class MCaeStillEncoderObserver *)
+

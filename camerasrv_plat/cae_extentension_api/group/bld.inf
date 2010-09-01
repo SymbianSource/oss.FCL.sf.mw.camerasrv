@@ -11,17 +11,18 @@
 *
 * Contributors:
 *
-* Description:  camerasrv bld.inf
+* Description:  File that exports the files belonging to 
+:                CAE Extentension API
 *
 */
 
 
 #include <platform_paths.hrh>
 
-#include "../camerasrv_plat/group/bld.inf"
-
-#include "../configmanagers/group/bld.inf"
-#include "../camappengine/Build/bld.inf"
-#include "../camcordermmfplugin/Build/bld.inf"
+PRJ_PLATFORMS
+DEFAULT
 
 PRJ_EXPORTS
+
+../inc/CaeEngineExtInterface.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(CaeEngineExtInterface.hrh)
+../inc/CaeEngineExtInterface.h     MW_LAYER_PLATFORM_EXPORT_PATH(CaeEngineExtInterface.h)

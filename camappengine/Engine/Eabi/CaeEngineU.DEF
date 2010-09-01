@@ -1,0 +1,6 @@
+EXPORTS
+	_ZN10CCaeEngine16CamerasAvailableEv @ 1 NONAME
+	_ZN10CCaeEngine4NewLEi @ 2 NONAME
+	_ZN10CCaeEngine4NewLEii @ 3 NONAME
+	_ZN10CCaeEngine4NewLEv @ 4 NONAME
+

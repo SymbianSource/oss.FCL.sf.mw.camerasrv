@@ -1,0 +1,36 @@
+EXPORTS
+	_Z9LibEntryLv @ 1 NONAME
+	_Z15SetRequirementsRP16CTestModuleParamRm @ 2 NONAME
+	_ZTI10CTestSuite @ 3 NONAME ; #<TI>#
+	_ZTI11CTestCallerI15CCaeTestReleaseE @ 4 NONAME ; #<TI>#
+	_ZTI11CTestCallerI19CCaeTestStillStatesE @ 5 NONAME ; #<TI>#
+	_ZTI11CTestCallerI19CCaeTestVideoStatesE @ 6 NONAME ; #<TI>#
+	_ZTI11CTestCallerI21CCaeTestStillSettingsE @ 7 NONAME ; #<TI>#
+	_ZTI11CTestCallerI21CCaeTestVideoSettingsE @ 8 NONAME ; #<TI>#
+	_ZTI14CAssertFailure @ 9 NONAME ; #<TI>#
+	_ZTI14CCaeTestClient @ 10 NONAME ; #<TI>#
+	_ZTI15CCaeTestRelease @ 11 NONAME ; #<TI>#
+	_ZTI19CCaeTestStillStates @ 12 NONAME ; #<TI>#
+	_ZTI19CCaeTestVideoStates @ 13 NONAME ; #<TI>#
+	_ZTI20CCaeTestStatesClient @ 14 NONAME ; #<TI>#
+	_ZTI21CCaeTestStillSettings @ 15 NONAME ; #<TI>#
+	_ZTI21CCaeTestVideoSettings @ 16 NONAME ; #<TI>#
+	_ZTI22CCaeTestSettingsClient @ 17 NONAME ; #<TI>#
+	_ZTI9CTestCase @ 18 NONAME ; #<TI>#
+	_ZTV10CTestSuite @ 19 NONAME ; #<VT>#
+	_ZTV11CTestCallerI15CCaeTestReleaseE @ 20 NONAME ; #<VT>#
+	_ZTV11CTestCallerI19CCaeTestStillStatesE @ 21 NONAME ; #<VT>#
+	_ZTV11CTestCallerI19CCaeTestVideoStatesE @ 22 NONAME ; #<VT>#
+	_ZTV11CTestCallerI21CCaeTestStillSettingsE @ 23 NONAME ; #<VT>#
+	_ZTV11CTestCallerI21CCaeTestVideoSettingsE @ 24 NONAME ; #<VT>#
+	_ZTV14CAssertFailure @ 25 NONAME ; #<VT>#
+	_ZTV14CCaeTestClient @ 26 NONAME ; #<VT>#
+	_ZTV15CCaeTestRelease @ 27 NONAME ; #<VT>#
+	_ZTV19CCaeTestStillStates @ 28 NONAME ; #<VT>#
+	_ZTV19CCaeTestVideoStates @ 29 NONAME ; #<VT>#
+	_ZTV20CCaeTestStatesClient @ 30 NONAME ; #<VT>#
+	_ZTV21CCaeTestStillSettings @ 31 NONAME ; #<VT>#
+	_ZTV21CCaeTestVideoSettings @ 32 NONAME ; #<VT>#
+	_ZTV22CCaeTestSettingsClient @ 33 NONAME ; #<VT>#
+	_ZTV9CTestCase @ 34 NONAME ; #<VT>#
+

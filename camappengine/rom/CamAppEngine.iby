@@ -1,0 +1,28 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  IBY for Camera Application Engine. 
+*
+*/
+
+
+#ifndef __CAMAPPENGINE_IBY__
+#define __CAMAPPENGINE_IBY__
+
+file=ABI_DIR\BUILD_DIR\CAEENGINE.DLL            SHARED_LIB_DIR\CAEENGINE.DLL
+file=ABI_DIR\BUILD_DIR\ASYNCHFSQ.DLL            SHARED_LIB_DIR\ASYNCHFSQ.DLL
+file=ABI_DIR\BUILD_DIR\CAESTILLCONVERTER.DLL    SHARED_LIB_DIR\CAESTILLCONVERTER.DLL
+
+//data=ZSYSTEM\install\camappenginestub.sis       system\install\camappenginestub.sis
+
+#endif
