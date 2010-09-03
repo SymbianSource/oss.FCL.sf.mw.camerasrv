@@ -42,7 +42,7 @@ SYSTEMINCLUDE	/epoc32/include/libc
 LIBRARY         euser.lib
 LIBRARY         efsrv.lib
 LIBRARY         estlib.lib
-LIBRARY         3GPMP4Lib.lib
+LIBRARY         3gpmp4lib.lib
 LIBRARY	        centralrepository.lib
 LIBRARY         mmfcontrollerframework.lib
 LIBRARY	        ecom.lib
