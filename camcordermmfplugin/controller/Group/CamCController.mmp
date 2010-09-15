@@ -44,11 +44,11 @@ USERINCLUDE     ../traces
 LIBRARY		euser.lib 
 LIBRARY		mmfcontrollerframework.lib
 LIBRARY		mmfstandardcustomcommands.lib
-LIBRARY		camcmediarecorder.lib
+LIBRARY		CamcMediaRecorder.lib
 LIBRARY		camc3gpsink.lib
 LIBRARY		bafl.lib	
 LIBRARY		efsrv.lib //TParse
 
 #ifdef EABI
-library ECOM.LIB
+library ecom.lib
 #endif

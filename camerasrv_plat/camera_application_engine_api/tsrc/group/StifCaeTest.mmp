@@ -76,8 +76,8 @@ USERINCLUDE	    ../../../../inc      // MW level inc dir
 LIBRARY         euser.lib
 LIBRARY         efsrv.lib
 LIBRARY         fbscli.lib
-LIBRARY         ECAM.lib
-LIBRARY         caeengine.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         ecam.lib
+LIBRARY         CaeEngine.lib
+LIBRARY         StifTestInterface.lib
 
 EXPORTUNFROZEN

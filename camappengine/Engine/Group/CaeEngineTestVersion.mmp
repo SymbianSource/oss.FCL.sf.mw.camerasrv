@@ -94,8 +94,8 @@ MW_LAYER_SYSTEMINCLUDE
 LIBRARY     euser.lib
 LIBRARY     fbscli.lib
 LIBRARY	    hal.lib
-LIBRARY     ECAM.lib
-LIBRARY     MMFControllerFramework.lib
+LIBRARY     ecam.lib
+LIBRARY     mmfcontrollerframework.lib
 LIBRARY     mediaclientvideo.lib
 LIBRARY     CaeStillConverter.lib
 LIBRARY     ExifLib.lib
@@ -103,7 +103,7 @@ LIBRARY     efsrv.lib
 LIBRARY     imageconversion.lib
 
 #ifdef EABI
-library ECOM.LIB
+library ecom.lib
 #endif
 
 // LIBRARY flogger.lib // Enable if USE_FILE_LOGGER is defined

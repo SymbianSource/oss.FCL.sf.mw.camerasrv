@@ -71,9 +71,9 @@ SYSTEMINCLUDE	/epoc32/include/libc
 
 LIBRARY       euser.lib
 LIBRARY       efsrv.lib
-LIBRARY       stiftestinterface.lib
-LIBRARY		  mediaclientvideo.lib
-LIBRARY       MMFControllerFramework.lib 
+LIBRARY       StifTestInterface.lib
+LIBRARY       mediaclientvideo.lib
+LIBRARY       mmfcontrollerframework.lib
 LIBRARY       bafl.lib 
 LIBRARY       ecam.lib
-LIBRARY		ecom.lib
+LIBRARY	      ecom.lib
