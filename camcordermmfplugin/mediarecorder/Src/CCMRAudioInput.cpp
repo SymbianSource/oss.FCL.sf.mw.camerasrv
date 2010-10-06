@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -202,7 +202,7 @@ void CCMRAudioInput::SourceRecordL()
 //
 void CCMRAudioInput::SourcePauseL()
     {
-    PRINT((_L("CCMRAudioInput::SourcePauseL(), calling iDataSource->SourceStopL")));
+    PRINT((_L("CCMRAudioInput::SourcePauseL(), in")));
     iState = EStateStopping;
 
     // store the latest timestamp - must do it already here, since sending event may reset it and we should not touch it after reset
@@ -276,9 +276,12 @@ void CCMRAudioInput::SourcePauseL()
 			iTimeStampWhenPaused = iTimeStampWhenPaused.Int64() + (initialDelay*1000);
 			}
 	    }
-
+		
+	// Ensure that after resume, if LatestTimeStampL() is called before UpdateTimeL() has been called it will
+	// return a sensible value.
+	iLatestTimeStamp = iTimeStampWhenPaused.Int64();
     // Stop audio.
-    PRINT((_L("CCMRAudioInput::SourceStopL() DevSound SourceStopL()")));
+    PRINT((_L("CCMRAudioInput::SourcePauseL() DevSound SourceStopL()")));
     devSound->Stop();
 
     if ( iOutputFilled->IsEmpty() )
@@ -883,7 +886,7 @@ void CCMRAudioInput::UpdateTimeL()
     if ( sampleRate )
         {
         TInt64 samples = devSound->SamplesRecorded();
-        PRINT((_L("CCMRAudioInput::UpdateTimeL() samples recorded %d"),I64INT(samples)));
+        PRINT((_L("CCMRAudioInput::UpdateTimeL() samples recorded %Ld"), samples));
 
         samples = samples * 1000000;
         samples = samples / sampleRate;

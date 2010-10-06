@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 
-#include "CamcTestClient_visualcheckdsp.h"
+#include "camctestclient_visualcheckdsp.h"
 #include <AudioPreference.h>
 
 

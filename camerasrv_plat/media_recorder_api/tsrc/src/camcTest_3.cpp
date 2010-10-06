@@ -246,8 +246,10 @@ MTest* CCamcTest_3::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_3"));
+    CleanupStack::PushL( suite );
     
-    suite->addTestL(CTestCaller<CCamcTest_3>::NewL(_L8("CAMC_API.NEWL_001"), &NewL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_3>::NewL(_L8("CAMC_API.NEWL_001"), &CCamcTest_3::NewL_001_L));
+    CleanupStack::Pop( suite );
     return suite;
     }
 

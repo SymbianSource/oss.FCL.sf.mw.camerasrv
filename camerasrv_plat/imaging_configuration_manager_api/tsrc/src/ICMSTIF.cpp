@@ -180,17 +180,17 @@ const TCaseInfo CICMSTIF::Case (
     static TCaseInfoInternal const KCases[] =
         {
         // To add new test cases, add new items to this array
-		ENTRY( "TestCase001", TestCase_001L ),
-		ENTRY( "TestCase002", TestCase_002L ),
-        ENTRY( "TestCase003", TestCase_003L ),
-        ENTRY( "TestCase004", TestCase_004L ),
-        ENTRY( "TestCase005", TestCase_005L ),
-        ENTRY( "TestCase006", TestCase_006L ),
-        ENTRY( "TestCase007", TestCase_007L ),
-        ENTRY( "TestCase008", TestCase_008L ),
-        ENTRY( "TestCase009", TestCase_009L ),
-        ENTRY( "TestCase010", TestCase_010L ),
-        ENTRY( "TestOOM", TestCase_OOML )
+		ENTRY( "TestCase001", CICMSTIF::TestCase_001L ),
+		ENTRY( "TestCase002", CICMSTIF::TestCase_002L ),
+        ENTRY( "TestCase003", CICMSTIF::TestCase_003L ),
+        ENTRY( "TestCase004", CICMSTIF::TestCase_004L ),
+        ENTRY( "TestCase005", CICMSTIF::TestCase_005L ),
+        ENTRY( "TestCase006", CICMSTIF::TestCase_006L ),
+        ENTRY( "TestCase007", CICMSTIF::TestCase_007L ),
+        ENTRY( "TestCase008", CICMSTIF::TestCase_008L ),
+        ENTRY( "TestCase009", CICMSTIF::TestCase_009L ),
+        ENTRY( "TestCase010", CICMSTIF::TestCase_010L ),
+        ENTRY( "TestOOM",     CICMSTIF::TestCase_OOML )
         };
 
     // Verify that case number is valid
@@ -271,6 +271,7 @@ TInt CICMSTIF::TestCase_003L( TTestResult& aResult )
 	_LIT8(KPreferredSupplier, "Nokia");
 	const TUint32 KAudioFourCCType = 0x524D4120;
 	CImagingConfigManager* icm = CImagingConfigManager::NewL();
+	CleanupStack::PushL( icm );
     CArrayFixFlat<TUint>* levels = new( ELeave ) CArrayFixFlat< TUint >( 1 );
     TVideoQualitySet videoset;
     icm->GetVideoQualityLevelsL(*levels);
@@ -345,6 +346,7 @@ TInt CICMSTIF::TestCase_003L( TTestResult& aResult )
     		aResult.iResultDes = _L("GetVideoQualitySetL() OK.");
             }
         }
+    CleanupStack::Pop( icm );
     delete levels;
 	delete icm;
     return KErrNone;
@@ -517,6 +519,7 @@ TInt CICMSTIF::TestCase_007L( TTestResult& aResult )
 	_LIT8(KImageFileMimeType, "image/jpeg");
 	_LIT8(KImageFileExtension, ".jpg");
 	CImagingConfigManager* icm = CImagingConfigManager::NewL();
+	CleanupStack::PushL( icm );
     CArrayFixFlat<TUint>* levels = new( ELeave ) CArrayFixFlat< TUint >( 1 );
     TImageQualitySet imageset;
     icm->GetImageQualityLevelsL(*levels, 2);
@@ -576,6 +579,7 @@ TInt CICMSTIF::TestCase_007L( TTestResult& aResult )
     		aResult.iResultDes = _L("GetImageQualityLevelsL() OK.");
             }
         }
+    CleanupStack::Pop( icm );
     delete levels;
 	delete icm;
     return KErrNone;

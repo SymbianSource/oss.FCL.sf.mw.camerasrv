@@ -63,7 +63,6 @@ USERINCLUDE   ..
 USERINCLUDE   ../inc
 USERINCLUDE   ../inc/TestFrameWork
 USERINCLUDE   ../../../../camcordermmfplugin/controller/Inc
-USERINCLUDE   ../../../../inc
 
 MW_LAYER_SYSTEMINCLUDE
 

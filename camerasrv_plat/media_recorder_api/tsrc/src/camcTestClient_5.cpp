@@ -763,7 +763,7 @@ void CCamcTestClient_5::RunLTrappedL()
                         iUiLevelCameraHandle, 
                         controllerUid,
                         formatUid ));
-
+                    err++;
                     CTimer::After(2 * TInt32 ( 1E6 ) ); // Wait 2 seconds
                     iPrepare2ndTime = ETrue;
                     break;

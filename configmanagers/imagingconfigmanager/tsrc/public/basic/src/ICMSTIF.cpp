@@ -271,6 +271,7 @@ TInt CICMSTIF::TestCase_003L( TTestResult& aResult )
 	_LIT8(KPreferredSupplier, "Nokia");
 	const TUint32 KAudioFourCCType = 0x524D4120;
 	CImagingConfigManager* icm = CImagingConfigManager::NewL();
+	CleanupStack::PushL( icm );
     CArrayFixFlat<TUint>* levels = new( ELeave ) CArrayFixFlat< TUint >( 1 );
     TVideoQualitySet videoset;
     icm->GetVideoQualityLevelsL(*levels);
@@ -344,6 +345,7 @@ TInt CICMSTIF::TestCase_003L( TTestResult& aResult )
     		aResult.iResultDes = _L("GetVideoQualitySetL() OK.");
             }
         }
+    CleanupStack::Pop( icm );
     delete levels;
 	delete icm;
     return KErrNone;
@@ -516,6 +518,7 @@ TInt CICMSTIF::TestCase_007L( TTestResult& aResult )
 	_LIT8(KImageFileMimeType, "image/jpeg");
 	_LIT8(KImageFileExtension, ".jpg");
 	CImagingConfigManager* icm = CImagingConfigManager::NewL();
+	CleanupStack::PushL( icm );
     CArrayFixFlat<TUint>* levels = new( ELeave ) CArrayFixFlat< TUint >( 1 );
     TImageQualitySet imageset;
     icm->GetImageQualityLevelsL(*levels, 2);
@@ -572,6 +575,7 @@ TInt CICMSTIF::TestCase_007L( TTestResult& aResult )
     		aResult.iResultDes = _L("GetImageQualityLevelsL() OK.");
             }
         }
+    CleanupStack::Pop( icm );
     delete levels;
 	delete icm;
     return KErrNone;

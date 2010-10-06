@@ -126,7 +126,11 @@ void CCamcTest_4::RecordTimeAvailableL_001_L()
     fsSession.Connect();
     TFileName fileName;
     AddDriveLetterToPath(_L("recordQCIF.3gp"),fileName);
-    TInt err = file.Open(fsSession,fileName,EFileShareAny);
+    TInt err;
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        fsSession.Close();
+        }
     assertTIntsEqualL( KErrNone, err );
 
     err = file.Size(filesize);
@@ -341,20 +345,22 @@ MTest* CCamcTest_4::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_4"));
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_001"), &RecordTimeAvailableL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_001"), &CCamcTest_4::RecordTimeAvailableL_001_L));
 #if ! (defined (__WINS__) || defined (__WINSCW__) )
-    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_002"), &RecordTimeAvailableL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_002"), &CCamcTest_4::RecordTimeAvailableL_002_L));
 #endif
-    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_003"), &RecordTimeAvailableL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_004"), &RecordTimeAvailableL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_003"), &CCamcTest_4::RecordTimeAvailableL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_004"), &CCamcTest_4::RecordTimeAvailableL_004_L));
 
     // RecordTimeAvailableL_006, only to be tested on HW
     // Removed from MuDo tests
 #if ! (defined (__WINS__) || defined (__WINSCW__) )
-//    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_006"), &RecordTimeAvailableL_006_L));
+//    suite->addTestL(CTestCaller<CCamcTest_4>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLE_006"), &CCamcTest_4::RecordTimeAvailableL_006_L));
 #endif
   
+    CleanupStack::Pop( suite );
     return suite;
     }
 

@@ -171,13 +171,16 @@ MTest* CCamcTest_7::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_7"));   
+    CleanupStack::PushL( suite );
     
-    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_007"), &OpenFileL_007_L));
-    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_013"), &OpenFileL_013_L));
-    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_014"), &OpenFileL_014_L));
-    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_015"), &OpenFileL_015_L));
+    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_007"), &CCamcTest_7::OpenFileL_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_013"), &CCamcTest_7::OpenFileL_013_L));
+    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_014"), &CCamcTest_7::OpenFileL_014_L));
+    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.OPENFILEL_015"), &CCamcTest_7::OpenFileL_015_L));
 // Removed from MuDo tests
-//    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.CLOSE_006"), &Close_006_L));
+//    suite->addTestL(CTestCaller<CCamcTest_7>::NewL(_L8("CAMC_API.CLOSE_006"), &CCamcTest_7::Close_006_L));
+
+    CleanupStack::Pop( suite );
     return suite;
     }
 

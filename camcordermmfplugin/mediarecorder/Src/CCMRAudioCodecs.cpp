@@ -92,13 +92,13 @@ void CCMRAudioCodecs::ConstructL()
         if ( CheckIfInstalledL(TFourCC(KCMRFourCCIdAMRNB), KMmfUidPluginInterfaceHwDevice, KNullUid) )
             {
             PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() AMR HW codec found")));
-            iAudioTypesHW.Append( TFourCC(KCMRFourCCIdAMRNB) );
+            iAudioTypesHW.AppendL( TFourCC(KCMRFourCCIdAMRNB) );
             }
         else if ( CheckIfInstalledL(TFourCC(KCMRFourCCIdAMRNB), KMmfUidPluginInterfaceCodec, amr.SWCodecUid() ) )
         // then check for SW codecs
             {
             PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() AMR SW codec found")));
-            iAudioTypesSW.Append( TFourCC(KCMRFourCCIdAMRNB) );
+            iAudioTypesSW.AppendL( TFourCC(KCMRFourCCIdAMRNB) );
             }
         // else no AMR codecs => nothing to add to the list
         }
@@ -112,13 +112,13 @@ void CCMRAudioCodecs::ConstructL()
         if ( CheckIfInstalledL(TFourCC(KCMRFourCCIdMPEG4AAC), KMmfUidPluginInterfaceHwDevice, KNullUid ) )
             {
             PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() AAC HW codec found")));
-            iAudioTypesHW.Append( TFourCC(KCMRFourCCIdMPEG4AAC) );
+            iAudioTypesHW.AppendL( TFourCC(KCMRFourCCIdMPEG4AAC) );
             }
         else if ( CheckIfInstalledL(TFourCC(KCMRFourCCIdMPEG4AAC), KMmfUidPluginInterfaceCodec, aac.SWCodecUid() ) )
         // then check for SW codecs
             {
             PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() AAC SW codec found")));
-            iAudioTypesSW.Append( TFourCC(KCMRFourCCIdMPEG4AAC) );
+            iAudioTypesSW.AppendL( TFourCC(KCMRFourCCIdMPEG4AAC) );
             }
         // else no AAC codecs => nothing to add to the list
         }
@@ -256,12 +256,12 @@ void CCMRAudioCodecs::GetSupportedAudioCodecsL( RArray<TFourCC>& aAudioTypes )
     for( i = 0; i < iAudioTypesHW.Count(); i++ )
         {
         PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() HW codec found, FourCC %d"), iAudioTypesHW[i].FourCC() ));
-        aAudioTypes.Append( iAudioTypesHW[i] );
+        aAudioTypes.AppendL( iAudioTypesHW[i] );
         }
     for( i = 0; i < iAudioTypesSW.Count(); i++ )
         {
         PRINT((_L("CCMRAudioCodecs::GetSupportedAudioCodecsL() SW codec found, FourCC %d"), iAudioTypesSW[i].FourCC() ));
-        aAudioTypes.Append( iAudioTypesSW[i] );
+        aAudioTypes.AppendL( iAudioTypesSW[i] );
         }
     }
 

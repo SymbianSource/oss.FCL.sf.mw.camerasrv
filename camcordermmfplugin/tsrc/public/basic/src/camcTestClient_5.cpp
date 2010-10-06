@@ -19,9 +19,9 @@
 
 // INCLUDE FILES
 
-#include "CamcTestClient_5.h"
+#include "camctestclient_5.h"
 #include "badesca.h"
-#include "camctest.h"
+#include "camcTest.h"
 #include <AudioPreference.h>
 
 // EXTERNAL DATA STRUCTURES

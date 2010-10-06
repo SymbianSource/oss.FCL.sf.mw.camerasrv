@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_8.h"
-#include "CamcTest.h"
+#include "camcTest_8.h"
+#include "camcTest.h"
 
 // EXTERNAL DATA STRUCTURES
 
@@ -457,6 +457,7 @@ MTest* CCamcTest_8::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_8"));   
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_001"), &MultipleInstance_001_L));
     
@@ -466,6 +467,7 @@ MTest* CCamcTest_8::suiteL ()
     suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_005"), &MultipleInstance_005_L));
     suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_006"), &MultipleInstance_006_L));
     
+    CleanupStack::Pop( suite );
     return suite;
     }
 

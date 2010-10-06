@@ -90,6 +90,7 @@ CCamcTestTop::~CCamcTestTop()
 MTest* CCamcTestTop::suiteL ()
     {
     CTestSuite *suite = CTestSuite::NewL(_L8("Test Suite Container"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CCamcTest_1::suiteL());
     suite->addTestL(CCamcTest_2::suiteL());
@@ -108,6 +109,7 @@ MTest* CCamcTestTop::suiteL ()
     // suite->addTestL(CCamcTest_visualcheckdsp::suiteL()); 
     // suite->addTestL(CCamcTest_visualcheck::suiteL()); 
 
+    CleanupStack::Pop( suite );
     return suite;
     
     }

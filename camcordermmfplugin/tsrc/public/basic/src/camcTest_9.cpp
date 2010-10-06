@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_9.h"
-#include "CamcTest.h"
+#include "camcTest_9.h"
+#include "camcTest.h"
 #include <bldvariant.hrh>
 
 
@@ -546,7 +546,10 @@ void CCamcTest_9::OpenFileL_016_L()
     TInt err;
     TFileName fileName;
     AddDriveLetterToPath(_L("non-existent-folder\\recordQCIF.3gp"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        fsSession.Close();
+        }
     assertTIntsEqualL( KErrNone, err );
 
     file.Close();
@@ -681,6 +684,7 @@ MTest* CCamcTest_9::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_9"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_007"), &Prepare_007_L));
     suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_008"), &Prepare_008_L));
@@ -710,7 +714,8 @@ MTest* CCamcTest_9::suiteL ()
 #endif
 
     suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.OPENFILEL_016"), &OpenFileL_016_L));
-   
+
+    CleanupStack::Pop( suite );   
     return suite;
     }
 

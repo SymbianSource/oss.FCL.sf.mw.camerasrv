@@ -767,39 +767,40 @@ MTest* CCamcTest_visualcheckdsp::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_visualcheckdsp"));
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_001"), &VisualCheck_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_002"), &VisualCheck_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_003"), &VisualCheck_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_004"), &VisualCheck_004_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_005"), &VisualCheck_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_006"), &VisualCheck_006_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_007"), &VisualCheck_007_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_008"), &VisualCheck_008_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_009_A"), &VisualCheck_009_A_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_001"), &CCamcTest_visualcheckdsp::VisualCheck_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_002"), &CCamcTest_visualcheckdsp::VisualCheck_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_003"), &CCamcTest_visualcheckdsp::VisualCheck_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_004"), &CCamcTest_visualcheckdsp::VisualCheck_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_005"), &CCamcTest_visualcheckdsp::VisualCheck_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_006"), &CCamcTest_visualcheckdsp::VisualCheck_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_007"), &CCamcTest_visualcheckdsp::VisualCheck_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_008"), &CCamcTest_visualcheckdsp::VisualCheck_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_009_A"), &CCamcTest_visualcheckdsp::VisualCheck_009_A_L));
     //Old Test VisualCheck_009
-    //suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_009_B"), &VisualCheck_009_B_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_010"), &VisualCheck_010_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_011"), &VisualCheck_011_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_012"), &VisualCheck_012_L));
+    //suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_009_B"), &CCamcTest_visualcheckdsp::VisualCheck_009_B_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_010"), &CCamcTest_visualcheckdsp::VisualCheck_010_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_011"), &CCamcTest_visualcheckdsp::VisualCheck_011_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_012"), &CCamcTest_visualcheckdsp::VisualCheck_012_L));
     // Test 113 considered as obsolete.
-    //suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_013"), &VisualCheck_013_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_014"), &VisualCheck_014_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_016"), &VisualCheck_016_L));
+    //suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_013"), &CCamcTest_visualcheckdsp::VisualCheck_013_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_014"), &CCamcTest_visualcheckdsp::VisualCheck_014_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_016"), &CCamcTest_visualcheckdsp::VisualCheck_016_L));
 
 #if !( defined (__WINS__) || defined (__WINSCW__) )
- //   suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_015"), &VisualCheck_015_L));
+ //   suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_015"), &CCamcTest_visualcheckdsp::VisualCheck_015_L));
 #endif   
 
 #ifdef __MPEG4_VIDEO_ENCODING
-//    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017"), &VisualCheck_017_L));
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017_A"), &VisualCheck_017_A_L));
+//    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017"), &CCamcTest_visualcheckdsp::VisualCheck_017_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017_A"), &CCamcTest_visualcheckdsp::VisualCheck_017_A_L));
 #endif
 #ifdef MP4_FILE_FORMAT_SUPPORTED
-    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_021"), &VisualCheck_021_L));
+    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_021"), &CCamcTest_visualcheckdsp::VisualCheck_021_L));
 #endif
 
-    
+    CleanupStack::Pop( suite );    
     return suite;
     }
 

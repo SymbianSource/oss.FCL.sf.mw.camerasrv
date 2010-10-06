@@ -522,7 +522,7 @@ class CCMRVideoRecorder : public CCMRRecorderBase, public MCMRVideoSourceObserve
         * from encoder to avoid situation where its both in .mp4 file metadata and in bitstream of video track.
         * @return number of bytes removed
         */
-        TInt RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer );
+        TInt RemoveNalDecSpecInfoHeaderL( TDesC8* aVideoBuffer );
         
         /**
         * Removes decoder configuration info (SPS & PPS) from first bytestream encapsulated H.264/AVC video buffer

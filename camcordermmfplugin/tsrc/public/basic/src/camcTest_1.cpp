@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_1.h"
+#include "camcTest_1.h"
 #include <bldvariant.hrh>
 
 
@@ -845,6 +845,7 @@ MTest* CCamcTest_1::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_1"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_001"), &OpenFileL_001_L));
     suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_002"), &OpenFileL_002_L));
@@ -875,7 +876,7 @@ MTest* CCamcTest_1::suiteL ()
     suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENDESCL_001"), &OpenDesL_001_L));
     suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENURLL_001"), &OpenUrlL_001_L));
     
-    
+    CleanupStack::Pop( suite );
     return suite;
     }
 

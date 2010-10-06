@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_visualcheck.h"
+#include "camcTest_visualcheck.h"
 #include <bldvariant.hrh>
 
 
@@ -650,6 +650,7 @@ MTest* CCamcTest_visualcheck::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_visualcheck"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_101"), &VisualCheck_101_L));
     suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_102"), &VisualCheck_102_L));
@@ -675,7 +676,8 @@ MTest* CCamcTest_visualcheck::suiteL ()
      
      suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_116"), &VisualCheck_116_L));
 
-    suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_117"), &VisualCheck_117_L));
+     suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_117"), &VisualCheck_117_L));
+     
 #ifdef __MPEG4_VIDEO_ENCODING
     suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_118"), &VisualCheck_118_L));
 #endif
@@ -692,6 +694,7 @@ MTest* CCamcTest_visualcheck::suiteL ()
     suite->addTestL(CTestCaller<CCamcTest_visualcheck>::NewL(_L8("CAMC_API.VISUALCHECK_121"), &VisualCheck_121_L));
 #endif
 
+    CleanupStack::Pop( suite );
     return suite;
     }
 

@@ -186,7 +186,11 @@ void CCamcTest_6::SetMaxClipSizeL_007_L()
     fsSession.Connect();
     TFileName fileName;
     AddDriveLetterToPath(_L("recordQCIF.3gp"),fileName);
-    TInt err = file.Open(fsSession,fileName,EFileShareAny);
+    TInt err;
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        fsSession.Close();
+        }
     assertTIntsEqualL( KErrNone, err );
 
     err = file.Size(filesize);
@@ -910,80 +914,82 @@ MTest* CCamcTest_6::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_6")); 
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.PAUSEL_003"), &PauseL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.PAUSEL_003"), &CCamcTest_6::PauseL_003_L));
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_005"), &SetVideoFrameSizeL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_005"), &CCamcTest_6::SetVideoFrameSizeL_005_L));
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_005"), &SetAudioEnabledL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_005"), &CCamcTest_6::SetAudioEnabledL_005_L));
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_006"), &SetMaxClipSizeL_006_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_007"), &SetMaxClipSizeL_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_006"), &CCamcTest_6::SetMaxClipSizeL_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_007"), &CCamcTest_6::SetMaxClipSizeL_007_L));
 
     // Record_006, only to be tested on HW
     // Removed from MuDo tests
 #if !( defined (__WINS__) || defined (__WINSCW__) )
-//    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.RECORD_006"), &Record_006_L));
+//    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.RECORD_006"), &CCamcTest_6::Record_006_L));
 #endif
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.RECORD_007"), &Record_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.RECORD_007"), &CCamcTest_6::Record_007_L));
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_001"), &VideoTypeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_002"), &VideoTypeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_003"), &VideoTypeL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_004"), &VideoTypeL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_001"), &CCamcTest_6::VideoTypeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_002"), &CCamcTest_6::VideoTypeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_003"), &CCamcTest_6::VideoTypeL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_004"), &CCamcTest_6::VideoTypeL_004_L));
    
 #ifdef __MPEG4_VIDEO_ENCODING
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_005"), &VideoTypeL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.VIDEOTYPEL_005"), &CCamcTest_6::VideoTypeL_005_L));
 #endif
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_001"), &AudioTypeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_002"), &AudioTypeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_003"), &AudioTypeL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_001"), &CCamcTest_6::AudioTypeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_002"), &CCamcTest_6::AudioTypeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.AUDIOTYPEL_003"), &CCamcTest_6::AudioTypeL_003_L));
  
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_005"), &SetVideoTypeL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_005"), &CCamcTest_6::SetVideoTypeL_005_L));
    
 #ifdef __MPEG4_VIDEO_ENCODING
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_006"), &SetVideoTypeL_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_006"), &CCamcTest_6::SetVideoTypeL_006_L));
 #endif
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_007"), &SetVideoTypeL_007_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_008"), &SetVideoTypeL_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_007"), &CCamcTest_6::SetVideoTypeL_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_008"), &CCamcTest_6::SetVideoTypeL_008_L));
 
 #ifdef MP4_FILE_FORMAT_SUPPORTED
 #if ((!defined __WINS__) || (!defined __WINSCW__)) // AAC supported only in HW
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_009"), &SetVideoTypeL_009_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_009"), &CCamcTest_6::SetVideoTypeL_009_L));
 #endif
 #endif
     
     
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_005"), &SetAudioTypeL_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_007"), &SetAudioTypeL_007_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_005"), &CCamcTest_6::SetAudioTypeL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_007"), &CCamcTest_6::SetAudioTypeL_007_L));   
 
 #ifdef MP4_FILE_FORMAT_SUPPORTED
 #if ((!defined __WINS__) || (!defined __WINSCW__)) // AAC supported only in HW
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_008"), &SetAudioTypeL_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_008"), &CCamcTest_6::SetAudioTypeL_008_L));
 #endif
 #endif
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_001"), &ControllerImplementationInformationL_001_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_001"), &CCamcTest_6::ControllerImplementationInformationL_001_L));   
 #ifndef MP4_FILE_FORMAT_SUPPORTED
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_003"), &ControllerImplementationInformationL_003_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_003"), &CCamcTest_6::ControllerImplementationInformationL_003_L));   
 #else
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_004"), &ControllerImplementationInformationL_004_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.CONTROLLERIMPLEMENTATIONINFORMATIONL_004"), &CCamcTest_6::ControllerImplementationInformationL_004_L));   
 #endif
 
 #ifndef MP4_FILE_FORMAT_SUPPORTED
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_002"), &MMFRegistration_002_L));   
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_003"), &MMFRegistration_003_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_002"), &CCamcTest_6::MMFRegistration_002_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_003"), &CCamcTest_6::MMFRegistration_003_L));   
 #else
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_004"), &MMFRegistration_004_L));   
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_005"), &MMFRegistration_005_L));   
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_006"), &MMFRegistration_006_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_004"), &CCamcTest_6::MMFRegistration_004_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_005"), &CCamcTest_6::MMFRegistration_005_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.MMFREGISTRATION_006"), &CCamcTest_6::MMFRegistration_006_L));   
 #endif
 
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_001"), &DurationL_001_L));   
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_002"), &DurationL_002_L));   
-    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_003"), &DurationL_003_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_001"), &CCamcTest_6::DurationL_001_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_002"), &CCamcTest_6::DurationL_002_L));   
+    suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_003"), &CCamcTest_6::DurationL_003_L));   
 
+    CleanupStack::Pop( suite );
     return suite;
     }
 

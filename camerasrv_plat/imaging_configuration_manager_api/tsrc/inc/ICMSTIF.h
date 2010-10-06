@@ -32,7 +32,7 @@
 // Function pointer related internal definitions
 // Hack around known GCC bug.
 #ifndef __GCC32__
-#define GETPTR
+#define GETPTR &
 #else
 #define GETPTR &
 #endif  

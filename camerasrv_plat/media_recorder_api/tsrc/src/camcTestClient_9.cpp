@@ -20,7 +20,7 @@
 // INCLUDE FILES
 
 #include "camctestclient_9.h"
-#include "CamCControllerCustomCommands.h"
+#include <CamCControllerCustomCommands.h>
 #include <mmf/common/mmfstandardcustomcommands.h>
 #include <mmf/server/mmffile.h>
 #include <AudioPreference.h>

@@ -63,7 +63,6 @@ USERINCLUDE   ..
 USERINCLUDE   ../inc
 USERINCLUDE   ../inc/TestFrameWork
 USERINCLUDE   ../../../../Controller/inc
-USERINCLUDE   ../../../../../inc
 
 MW_LAYER_SYSTEMINCLUDE
 

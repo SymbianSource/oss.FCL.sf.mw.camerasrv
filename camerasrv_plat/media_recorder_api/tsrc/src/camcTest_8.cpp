@@ -457,15 +457,17 @@ MTest* CCamcTest_8::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_8"));   
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_001"), &MultipleInstance_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_001"), &CCamcTest_8::MultipleInstance_001_L));
     
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_002"), &MultipleInstance_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_003"), &MultipleInstance_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_004"), &MultipleInstance_004_L));
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_005"), &MultipleInstance_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_006"), &MultipleInstance_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_002"), &CCamcTest_8::MultipleInstance_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_003"), &CCamcTest_8::MultipleInstance_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_004"), &CCamcTest_8::MultipleInstance_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_005"), &CCamcTest_8::MultipleInstance_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_8>::NewL(_L8("CAMC_API.MULTIPLEINSTANCE_006"), &CCamcTest_8::MultipleInstance_006_L));
     
+    CleanupStack::Pop( suite );
     return suite;
     }
 

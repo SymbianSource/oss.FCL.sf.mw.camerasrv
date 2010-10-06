@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,15 +11,11 @@
 *
 * Contributors:
 *
-* Description:  Iby file for Imaging Configuration Manager
+* Description:  Includes all the public API specific bld.inf files, which 
+*                export files.
 *
 */
 
 
-#ifndef __IMAGINGCONFIGMANAGER_IBY__
-#define __IMAGINGCONFIGMANAGER_IBY__
 
-// Imaging Configuration Manager
-file=ABI_DIR\BUILD_DIR\IMAGINGCONFIGMANAGER.DLL		SHARED_LIB_DIR\IMAGINGCONFIGMANAGER.DLL
-
-#endif
+#include "../camcorder_mmf_plugin_custom_commands_api/group/bld.inf"

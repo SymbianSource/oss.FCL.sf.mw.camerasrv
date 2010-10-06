@@ -18,7 +18,7 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_visualcheckdsp.h"
+#include "camcTest_visualcheckdsp.h"
 
 
 // EXTERNAL DATA STRUCTURES
@@ -767,6 +767,7 @@ MTest* CCamcTest_visualcheckdsp::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_visualcheckdsp"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_001"), &VisualCheck_001_L));
     suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_002"), &VisualCheck_002_L));
@@ -795,12 +796,11 @@ MTest* CCamcTest_visualcheckdsp::suiteL ()
 //    suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017"), &VisualCheck_017_L));
     suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_017_A"), &VisualCheck_017_A_L));
 #endif
-
 #ifdef MP4_FILE_FORMAT_SUPPORTED
     suite->addTestL(CTestCaller<CCamcTest_visualcheckdsp>::NewL(_L8("CAMC_API.VISUALCHECK_021"), &VisualCheck_021_L));
 #endif
 
-    
+    CleanupStack::Pop( suite );    
     return suite;
     }
 

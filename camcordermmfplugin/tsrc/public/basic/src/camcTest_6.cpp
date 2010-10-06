@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_6.h"
-#include "CamcTest.h"
+#include "camcTest_6.h"
+#include "camcTest.h"
 #include <bldvariant.hrh>
 
 
@@ -186,7 +186,11 @@ void CCamcTest_6::SetMaxClipSizeL_007_L()
     fsSession.Connect();
     TFileName fileName;
     AddDriveLetterToPath(_L("recordQCIF.3gp"),fileName);
-    TInt err = file.Open(fsSession,fileName,EFileShareAny);
+    TInt err;
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        fsSession.Close();
+        }
     assertTIntsEqualL( KErrNone, err );
 
     err = file.Size(filesize);
@@ -910,6 +914,7 @@ MTest* CCamcTest_6::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_6")); 
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.PAUSEL_003"), &PauseL_003_L));
 
@@ -984,6 +989,7 @@ MTest* CCamcTest_6::suiteL ()
     suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_002"), &DurationL_002_L));   
     suite->addTestL(CTestCaller<CCamcTest_6>::NewL(_L8("CAMC_API.DURATIONL_003"), &DurationL_003_L));   
 
+    CleanupStack::Pop( suite );
     return suite;
     }
 

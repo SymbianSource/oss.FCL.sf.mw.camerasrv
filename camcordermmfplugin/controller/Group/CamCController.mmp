@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -22,22 +22,22 @@ TARGET          CAMCCONTROLLER.DLL
 TARGETTYPE      PLUGIN
 UID             0x10009D8D 0x101F8502
 
-CAPABILITY 	    CAP_ECOM_PLUGIN
+CAPABILITY      CAP_ECOM_PLUGIN
 VENDORID        VID_DEFAULT
+VERSION         10.1
 
 SOURCEPATH      ../Src
 SOURCE          CamCController.cpp
 SOURCE          CamCControllerFactory.cpp
 
 START RESOURCE 101F8502.rss
-TARGET 		    CAMCCONTROLLER.rsc
+TARGET 	        CAMCCONTROLLER.rsc
 END
 
 // Default system include paths for application layer modules.
 MW_LAYER_SYSTEMINCLUDE
 
 USERINCLUDE     ../Inc
-USERINCLUDE	    ../../../inc   // ADo level inc dir
 USERINCLUDE     ../../mediarecorder/Inc
 USERINCLUDE     ../traces
 

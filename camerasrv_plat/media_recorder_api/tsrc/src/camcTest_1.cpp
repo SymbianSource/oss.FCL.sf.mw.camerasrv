@@ -793,35 +793,36 @@ MTest* CCamcTest_1::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_1"));
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_001"), &OpenFileL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_002"), &OpenFileL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_001"), &CCamcTest_1::OpenFileL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_002"), &CCamcTest_1::OpenFileL_002_L));
     // OPENFILEL_003 is not a valid test case.
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_004"), &OpenFileL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_004"), &CCamcTest_1::OpenFileL_004_L));
     // OPENFILEL_005 is not relevent in current configuration.
       
 #ifdef __MPEG4_VIDEO_ENCODING
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_005"), &OpenFileL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_005"), &CCamcTest_1::OpenFileL_005_L));
 #endif
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_006"), &OpenFileL_006_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_008"), &OpenFileL_008_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_009"), &OpenFileL_009_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_010"), &OpenFileL_010_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_011"), &OpenFileL_011_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_006"), &CCamcTest_1::OpenFileL_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_008"), &CCamcTest_1::OpenFileL_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_009"), &CCamcTest_1::OpenFileL_009_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_010"), &CCamcTest_1::OpenFileL_010_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_011"), &CCamcTest_1::OpenFileL_011_L));
   
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_017"), &OpenFileL_017_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_017"), &CCamcTest_1::OpenFileL_017_L));
 #ifdef __MPEG4_VIDEO_ENCODING
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_018"), &OpenFileL_018_L));   
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_018"), &CCamcTest_1::OpenFileL_018_L));   
 #endif
 #ifdef MP4_FILE_FORMAT_SUPPORTED
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_020"), &OpenFileL_020_L));   
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_021"), &OpenFileL_021_L));   
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_020"), &CCamcTest_1::OpenFileL_020_L));   
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENFILEL_021"), &CCamcTest_1::OpenFileL_021_L));   
 #endif
     
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENDESCL_001"), &OpenDesL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENURLL_001"), &OpenUrlL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENDESCL_001"), &CCamcTest_1::OpenDesL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_1>::NewL(_L8("CAMC_API.OPENURLL_001"), &CCamcTest_1::OpenUrlL_001_L));
     
-    
+    CleanupStack::Pop( suite );
     return suite;
     }
 

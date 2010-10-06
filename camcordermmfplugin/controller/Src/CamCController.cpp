@@ -23,13 +23,13 @@
 #include <mmf/server/mmffile.h>
 #include <badesca.h>    // CDesC8ArrayFlat
 #include <AudioPreference.h>                // For MMF audio preference definitions.
+#include <CamCControllerCustomCommands.h>
 #include "CamC3GPDataSink.h"
 #include "CCMRMediaRecorder.h"
 #include "CamC3GPDataSinkObserver.h"
 #include "CamCController.h"
 #include "CCMRSupportedCodecs.h"
 #include "CamCImplementationUIDs.hrh"
-#include "CamCControllerCustomCommands.h"
 
 // LOCAL CONSTANTS AND MACROS
 // Debug print macro

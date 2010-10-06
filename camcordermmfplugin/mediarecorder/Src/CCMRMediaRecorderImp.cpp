@@ -1550,9 +1550,13 @@ void CCMRMediaRecorderImp::CCMRErrorReporter::FatalError(TInt aError)
 		TRequestStatus *tmp=(&iStatus);
 		User::RequestComplete(tmp,0);
         }
-    iErrors.Append( TCMRError(aError, EErrorFatal) );
+    TInt error = iErrors.Append( TCMRError(aError, EErrorFatal) );
+    if ( error != KErrNone )
+        {
+        PRINT((_L("CCMRMediaRecorderImp::CCMRErrorReporter::FatalError() OOM error in storing error code.")));
+        MRASSERT( 0 );        
+        }    
     }
-
 
 // -----------------------------------------------------------------------------
 // CCMRMediaRecorderImp::CCMRErrorReporter::TemporaryError
@@ -1569,7 +1573,12 @@ void CCMRMediaRecorderImp::CCMRErrorReporter::TemporaryError(TInt aError)
 		TRequestStatus *tmp=(&iStatus);
 		User::RequestComplete(tmp,0);
         }
-    iErrors.Append( TCMRError(aError, EErrorTemp) );
+    TInt error = iErrors.Append( TCMRError(aError, EErrorTemp) );
+    if ( error != KErrNone )
+        {
+        PRINT((_L("CCMRMediaRecorderImp::CCMRErrorReporter::TemporaryError() OOM error in storing error code.")));
+        MRASSERT( 0 );        
+        }
     }
 
 // -----------------------------------------------------------------------------

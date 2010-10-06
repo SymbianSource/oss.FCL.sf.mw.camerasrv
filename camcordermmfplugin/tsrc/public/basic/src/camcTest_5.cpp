@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_5.h"
-#include "CamcTest.h"
+#include "camcTest_5.h"
+#include "camcTest.h"
 #include <bldvariant.hrh>
 
 
@@ -921,6 +921,7 @@ MTest* CCamcTest_5::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_5"));
+    CleanupStack::PushL( suite );
 
     suite->addTestL(CTestCaller<CCamcTest_5>::NewL(_L8("CAMC_API.NUMBEROFMETADATAENTRIESL_001"), &NumberOfMetaDataEntriesL_001_L));
     suite->addTestL(CTestCaller<CCamcTest_5>::NewL(_L8("CAMC_API.NUMBEROFMETADATAENTRIESL_002"), &NumberOfMetaDataEntriesL_002_L));
@@ -991,6 +992,7 @@ MTest* CCamcTest_5::suiteL ()
     // AMR-only
     suite->addTestL(CTestCaller<CCamcTest_5>::NewL(_L8("CAMC_API.GETSUPPORTEDAUDIOTYPESL_001"), &GetSupportedAudioTypes_001_L));
 
+    CleanupStack::Pop( suite );
     return suite;
     }
 

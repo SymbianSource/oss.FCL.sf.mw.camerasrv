@@ -19,12 +19,12 @@
 
 // INCLUDE FILES
 
-#include "CamcTestClient_9.h"
-#include "CamCControllerCustomCommands.h"
+#include "camctestclient_9.h"
+#include <CamCControllerCustomCommands.h>
 #include <mmf/common/mmfstandardcustomcommands.h>
 #include <mmf/server/mmffile.h>
 #include <AudioPreference.h>
-#include "camctest.h"
+#include "camcTest.h"
 
 
 // EXTERNAL DATA STRUCTURES

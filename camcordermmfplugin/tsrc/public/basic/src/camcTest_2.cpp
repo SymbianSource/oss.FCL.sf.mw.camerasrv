@@ -18,8 +18,8 @@
 
 
 // INCLUDE FILES
-#include "CamcTest_2.h"
-#include "CamcTest.h"
+#include "camcTest_2.h"
+#include "camcTest.h"
 
 
 // EXTERNAL DATA STRUCTURES
@@ -178,16 +178,28 @@ void CCamcTest_2::Close_005_L()
     TFileName fileName;
 
     AddDriveLetterToPath(_L("recordQCIF.3gp"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNone, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNone, err );
+        }
     
     AddDriveLetterToPath(_L("CamcorderTmpDir"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNotFound, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNotFound, err );
+        }
 
     AddDriveLetterToPath(_L("CamcorderTMP"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNotFound, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNotFound, err );
+        }
 
     file.Close();
     fsSession.Close();
@@ -1130,7 +1142,8 @@ MTest* CCamcTest_2::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("State Transition tests (CamcTest2)"));
-
+    CleanupStack::PushL( suite );
+        
     suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_001"), &Close_001_L));
     suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_002"), &Close_002_L));
     suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_003"), &Close_003_L)); 
@@ -1211,6 +1224,7 @@ MTest* CCamcTest_2::suiteL ()
     suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_003"), &SetAudioTypeL_003_L));
     suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_004"), &SetAudioTypeL_004_L));
     
+    CleanupStack::Pop( suite );
     return suite;
     }
     

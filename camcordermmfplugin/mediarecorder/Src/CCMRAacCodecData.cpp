@@ -157,12 +157,12 @@ TDes8* CCMRAACCodecData::GetCodecConfigParamL(MDataSource* /*aDataSource*/)
 
     // AAC codec interprets the input as array of TInts, not as a class
     iAACConfigData.Reset();
-	iAACConfigData.Append (iBitRate);	//iBitRate
-	iAACConfigData.Append (iSampleRate);	//iSamplingRate
-	iAACConfigData.Append (0);	//iToolFlags
-	iAACConfigData.Append (iChannels);	//iNumChan
-	iAACConfigData.Append (0);	//iuseFormat 0=RAW; 1=ADTS; 2=ADIF
-	iAACConfigData.Append (0);	// 0 = 1 Frame only; 1 = Full Buffer
+	iAACConfigData.AppendL (iBitRate);	//iBitRate
+	iAACConfigData.AppendL (iSampleRate);	//iSamplingRate
+	iAACConfigData.AppendL (0);	//iToolFlags
+	iAACConfigData.AppendL (iChannels);	//iNumChan
+	iAACConfigData.AppendL (0);	//iuseFormat 0=RAW; 1=ADTS; 2=ADIF
+	iAACConfigData.AppendL (0);	// 0 = 1 Frame only; 1 = Full Buffer
 
     PRINT((_L("CCMRAACCodecData::GetCodecConfigParamL() out")));
     return reinterpret_cast<TDes8*>(&iAACConfigData);

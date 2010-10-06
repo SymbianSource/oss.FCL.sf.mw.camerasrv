@@ -178,16 +178,28 @@ void CCamcTest_2::Close_005_L()
     TFileName fileName;
 
     AddDriveLetterToPath(_L("recordQCIF.3gp"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNone, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNone, err );
+        }
     
     AddDriveLetterToPath(_L("CamcorderTmpDir"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNotFound, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNotFound, err );
+        }
 
     AddDriveLetterToPath(_L("CamcorderTMP"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
-    assertTIntsEqualL( KErrNotFound, err );
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        file.Close();
+        fsSession.Close();
+        assertTIntsEqualL( KErrNotFound, err );
+        }
 
     file.Close();
     fsSession.Close();
@@ -1130,87 +1142,89 @@ MTest* CCamcTest_2::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("State Transition tests (CamcTest2)"));
-
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_001"), &Close_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_002"), &Close_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_003"), &Close_003_L)); 
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_004"), &Close_004_L)); 
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_005"), &Close_005_L));
+    CleanupStack::PushL( suite );
+        
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_001"), &CCamcTest_2::Close_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_002"), &CCamcTest_2::Close_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_003"), &CCamcTest_2::Close_003_L)); 
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_004"), &CCamcTest_2::Close_004_L)); 
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_005"), &CCamcTest_2::Close_005_L));
 #ifdef MP4_FILE_FORMAT_SUPPORTED
 #if ((!defined __WINS__) || (!defined __WINSCW__)) // AAC supported only in HW
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_007"), &Close_007_L)); 
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.CLOSE_007"), &CCamcTest_2::Close_007_L)); 
 #endif
 #endif
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_001"), &Prepare_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_002"), &Prepare_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_003"), &Prepare_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_004"), &Prepare_004_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_005"), &Prepare_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_006"), &Prepare_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_001"), &CCamcTest_2::Prepare_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_002"), &CCamcTest_2::Prepare_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_003"), &CCamcTest_2::Prepare_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_004"), &CCamcTest_2::Prepare_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_005"), &CCamcTest_2::Prepare_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.PREPARE_006"), &CCamcTest_2::Prepare_006_L));
    
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_001"), &Record_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_002"), &Record_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_003"), &Record_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_001"), &CCamcTest_2::Record_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_002"), &CCamcTest_2::Record_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_003"), &CCamcTest_2::Record_003_L));
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_004"), &Record_004_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_005"), &Record_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_001"), &SetPriorityL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_002"), &SetPriorityL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_003"), &SetPriorityL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_004"), &SetPriorityL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_004"), &CCamcTest_2::Record_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.RECORD_005"), &CCamcTest_2::Record_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_001"), &CCamcTest_2::SetPriorityL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_002"), &CCamcTest_2::SetPriorityL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_003"), &CCamcTest_2::SetPriorityL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETPRIORITYL_004"), &CCamcTest_2::SetPriorityL_004_L));
     
   
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_001"), &SetVideoFrameRateL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_002"), &SetVideoFrameRateL_002_L));     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_003"), &SetVideoFrameRateL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_004"), &SetVideoFrameRateL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_001"), &CCamcTest_2::SetVideoFrameRateL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_002"), &CCamcTest_2::SetVideoFrameRateL_002_L));     
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_003"), &CCamcTest_2::SetVideoFrameRateL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMERATEL_004"), &CCamcTest_2::SetVideoFrameRateL_004_L));
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_001"), &SetVideoFrameSizeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_002"), &SetVideoFrameSizeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_003"), &SetVideoFrameSizeL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_004"), &SetVideoFrameSizeL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_001"), &CCamcTest_2::SetVideoFrameSizeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_002"), &CCamcTest_2::SetVideoFrameSizeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_003"), &CCamcTest_2::SetVideoFrameSizeL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_004"), &CCamcTest_2::SetVideoFrameSizeL_004_L));
 
 #ifdef MP4_FILE_FORMAT_SUPPORTED
 #if ((!defined __WINS__) || (!defined __WINSCW__)) // AAC supported only in HW
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_007"), &SetVideoFrameSizeL_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOFRAMESIZEL_007"), &CCamcTest_2::SetVideoFrameSizeL_007_L));
 #endif
 #endif
    
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_001"), &SetVideoBitRateL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_002"), &SetVideoBitRateL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_003"), &SetVideoBitRateL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_004"), &SetVideoBitRateL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_001"), &CCamcTest_2::SetVideoBitRateL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_002"), &CCamcTest_2::SetVideoBitRateL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_003"), &CCamcTest_2::SetVideoBitRateL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOBITRATEL_004"), &CCamcTest_2::SetVideoBitRateL_004_L));
 
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_001"), &SetAudioBitRateL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_002"), &SetAudioBitRateL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_003"), &SetAudioBitRateL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_004"), &SetAudioBitRateL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_001"), &CCamcTest_2::SetAudioBitRateL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_002"), &CCamcTest_2::SetAudioBitRateL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_003"), &CCamcTest_2::SetAudioBitRateL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOBITRATEL_004"), &CCamcTest_2::SetAudioBitRateL_004_L));
     
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_001"), &SetAudioEnabledL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_002"), &SetAudioEnabledL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_003"), &SetAudioEnabledL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_004"), &SetAudioEnabledL_004_L));
-    
-
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_001"), &SetMaxClipSizeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_002"), &SetMaxClipSizeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_003"), &SetMaxClipSizeL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_004"), &SetMaxClipSizeL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_001"), &CCamcTest_2::SetAudioEnabledL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_002"), &CCamcTest_2::SetAudioEnabledL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_003"), &CCamcTest_2::SetAudioEnabledL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOENABLEDL_004"), &CCamcTest_2::SetAudioEnabledL_004_L));
     
 
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_001"), &SetVideoTypeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_002"), &SetVideoTypeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_003"), &SetVideoTypeL_003_L));  
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_004"), &SetVideoTypeL_004_L));
-
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_001"), &SetAudioTypeL_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_002"), &SetAudioTypeL_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_003"), &SetAudioTypeL_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_004"), &SetAudioTypeL_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_001"), &CCamcTest_2::SetMaxClipSizeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_002"), &CCamcTest_2::SetMaxClipSizeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_003"), &CCamcTest_2::SetMaxClipSizeL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_004"), &CCamcTest_2::SetMaxClipSizeL_004_L));
     
+
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_001"), &CCamcTest_2::SetVideoTypeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_002"), &CCamcTest_2::SetVideoTypeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_003"), &CCamcTest_2::SetVideoTypeL_003_L));  
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETVIDEOTYPEL_004"), &CCamcTest_2::SetVideoTypeL_004_L));
+
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_001"), &CCamcTest_2::SetAudioTypeL_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_002"), &CCamcTest_2::SetAudioTypeL_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_003"), &CCamcTest_2::SetAudioTypeL_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_2>::NewL(_L8("CAMC_API.SETAUDIOTYPEL_004"), &CCamcTest_2::SetAudioTypeL_004_L));
+    
+    CleanupStack::Pop( suite );
     return suite;
     }
     

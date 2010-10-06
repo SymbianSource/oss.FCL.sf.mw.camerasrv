@@ -461,7 +461,10 @@ void CCamcTest_9::OpenFileL_016_L()
     TInt err;
     TFileName fileName;
     AddDriveLetterToPath(_L("non-existent-folder\\recordQCIF.3gp"), fileName);
-    err = file.Open(fsSession,fileName,EFileShareAny);
+    if ( err = file.Open(fsSession,fileName,EFileShareAny) )
+        {
+        fsSession.Close();
+        }
     assertTIntsEqualL( KErrNone, err );
 
     file.Close();
@@ -596,34 +599,36 @@ MTest* CCamcTest_9::suiteL ()
     {
     // Always use NewL (Do not use NewLC) !!!
     CTestSuite *suite = CTestSuite::NewL(_L8("CCamcTest_9"));
+    CleanupStack::PushL( suite );
 
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_007"), &Prepare_007_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_008"), &Prepare_008_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_009"), &Prepare_009_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_007"), &CCamcTest_9::Prepare_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_008"), &CCamcTest_9::Prepare_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.PREPARE_009"), &CCamcTest_9::Prepare_009_L));
     
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLEL_005"), &RecordTimeAvailableL_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.RECORDTIMEAVAILABLEL_005"), &CCamcTest_9::RecordTimeAvailableL_005_L));
     
     // SetMaxClipSizeL_008 and SetMaxClipSizeL_009, only to be tested on HW
 #if !( defined (__WINS__) || defined (__WINSCW__) )
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_008"), &SetMaxClipSizeL_008_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_009"), &SetMaxClipSizeL_009_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_008"), &CCamcTest_9::SetMaxClipSizeL_008_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.SETMAXCLIPSIZEL_009"), &CCamcTest_9::SetMaxClipSizeL_009_L));
 #endif
     
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_001"), &NewFileName_001_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_002"), &NewFileName_002_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_003"), &NewFileName_003_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_004"), &NewFileName_004_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_005"), &NewFileName_005_L));
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_006"), &NewFileName_006_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_001"), &CCamcTest_9::NewFileName_001_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_002"), &CCamcTest_9::NewFileName_002_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_003"), &CCamcTest_9::NewFileName_003_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_004"), &CCamcTest_9::NewFileName_004_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_005"), &CCamcTest_9::NewFileName_005_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_006"), &CCamcTest_9::NewFileName_006_L));
     
 #ifdef MP4_FILE_FORMAT_SUPPORTED
 #if ((!defined __WINS__) || (!defined __WINSCW__)) // AAC supported only in HW
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_007"), &NewFileName_007_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.NEWFILENAME_007"), &CCamcTest_9::NewFileName_007_L));
 #endif
 #endif
 
-    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.OPENFILEL_016"), &OpenFileL_016_L));
+    suite->addTestL(CTestCaller<CCamcTest_9>::NewL(_L8("CAMC_API.OPENFILEL_016"), &CCamcTest_9::OpenFileL_016_L));
    
+    CleanupStack::Pop( suite );
     return suite;
     }
 

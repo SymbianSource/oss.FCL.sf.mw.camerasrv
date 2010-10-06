@@ -837,7 +837,7 @@ void CCamcTestClient_visualcheckdsp::DoCancel()
     }
 
 
-_LIT(KMyPanicDescriptor, "Callback error");
+//_LIT(KMyPanicDescriptor, "Callback error");
 void CCamcTestClient_visualcheckdsp::MvruoOpenComplete( TInt aError )
     {
     if (aError)

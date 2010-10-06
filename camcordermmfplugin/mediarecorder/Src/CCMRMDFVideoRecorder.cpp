@@ -3172,12 +3172,14 @@ void CCMRVideoRecorder::MdvroReturnPicture(TVideoPicture* aPicture)
         {
         // pictures are returned in different order than they were sent
 		RPointerArray<MFrameBuffer> buffers;
-        buffers.Append(buffer);
-
+        TInt bufError = buffers.Append(buffer);
+        VRASSERT( bufError == KErrNone );
+        
         TUint i;
         for ( i = 1; i < iNumCameraBuffers; i++ )
             {
-            buffers.Append(reinterpret_cast<MFrameBuffer*>(iSourceFifo->Get()));
+            bufError = buffers.Append(reinterpret_cast<MFrameBuffer*>(iSourceFifo->Get()));
+            VRASSERT( bufError == KErrNone );
 
             TRAP(error, (tmp = static_cast<TPtr8*>(buffers[i]->DataL(0))));
             if ( tmp == aPicture->iData.iRawData )
@@ -3206,7 +3208,6 @@ void CCMRVideoRecorder::MdvroReturnPicture(TVideoPicture* aPicture)
     buffer = NULL;
 
     iEncoderInputQueueLength--;
-
 
     // save the picture holder to fifo
     TRAPD( err, iCodingFifo->PutL( reinterpret_cast<TAny*>(aPicture) ));
@@ -3526,7 +3527,13 @@ CCMRMediaBuffer* CCMRVideoRecorder::GetNextBuffer()
                 // Removes SPS & PPS from first frame from encoder to avoid situation where its both in
                 // .mp4 file metadata and in bitstream of video track.
                 // Make sure buffer contains only one frame and rewrite encapsulation to make sure its ok.
-                RemoveNalDecSpecInfoHeader( reinterpret_cast<TDesC8*>(&iOutputVideoBuffer->iData) );
+                TRAPD( error, RemoveNalDecSpecInfoHeaderL( reinterpret_cast<TDesC8*>(&iOutputVideoBuffer->iData) ) );
+                if ( error != KErrNone )
+                    {
+                    PRINT((_L("CCMRVideoRecorder::GetNextBuffer() RemoveNalDecSpecInfoHeaderL error %d"), error ));
+                    DoSendEventToClient( KCMRRunTimeError, error );
+                    return NULL;
+                    }
                 outputMediaBufferSet = ETrue;
                 }
             else if ( iVideoBufferType == CCMRMediaBuffer::EVideoH264Bytestream )
@@ -3876,13 +3883,13 @@ TInt CCMRVideoRecorder::RemoveSeqHeader( TDesC8* aVideoBuffer )
     }
 
 // -----------------------------------------------------------------------------
-// CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
+// CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL( TDesC8* aVideoBuffer )
 // Removes decoder configuration info (SPS & PPS) from first NAL encapsulated H.264/AVC video buffer
 // from encoder to avoid situation where its both in .mp4 file metadata and in bitstream of video track.
 // Makes sure buffer contains only one frame and rewrite encapsulation to make sure its ok.
 // -----------------------------------------------------------------------------
 //
-TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
+TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL( TDesC8* aVideoBuffer )
 	{
 	// H.264 AVC NAL /  EDuGenericPayload / NAL encapsulation
 
@@ -3901,7 +3908,7 @@ TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
     RArray<TInt> nalSizes;
     RArray<TInt> nalStarts;
 
-    PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() in, length: %d "), buffer.Length() ));
+    PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() in, length: %d "), buffer.Length() ));
 
 	// There should be enough data for the NAL header + frame
     if ( buffer.Length() > 12 )
@@ -3925,7 +3932,7 @@ TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
                         (TInt(buffer[offset + 2]) << 16) +
                         (TInt(buffer[offset + 3]) << 24);
 
-            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() NAL unit %d frame start: %d "), i, frameStart ));
+            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() NAL unit %d frame start: %d "), i, frameStart ));
 
             // Get frame size
             offset += 4;
@@ -3934,21 +3941,21 @@ TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
                        (TInt(buffer[offset + 2]) << 16) +
                        (TInt(buffer[offset + 3]) << 24);
 
-           PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() NAL unit %d frame size: %d "), i, frameSize ));
+           PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() NAL unit %d frame size: %d "), i, frameSize ));
            bufType = buffer[frameStart] & 0x1F;
-           PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() NAL unit %d type: %d "), i, bufType ));
+           PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() NAL unit %d type: %d "), i, bufType ));
            if ( bufType != 7 && //SPS
                 bufType != 8 )//PPS
                {
                // we found first NAL unit that isn't SPS or PPS
-               nalSizes.Append(frameSize);
+               nalSizes.AppendL(frameSize);
                if (firstCopiedNAL==0)
                    {
                    firstCopiedNAL = frameStart;
                    }
-               nalStarts.Append(frameStart-firstCopiedNAL);               
+               nalStarts.AppendL(frameStart-firstCopiedNAL);               
                totalNALLength = frameStart+frameSize-firstCopiedNAL;
-               PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() new total length: %d, padding: %d "), totalNALLength, totalNALLength%4 ));
+               PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() new total length: %d, padding: %d "), totalNALLength, totalNALLength%4 ));
                totalNALLength += totalNALLength%4;
                }
            }
@@ -3956,18 +3963,18 @@ TInt CCMRVideoRecorder::RemoveNalDecSpecInfoHeader( TDesC8* aVideoBuffer )
         // The buffer should have enough space for the new NAL header
 
         // We need to write a new NAL header just after the frame end
-        PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() writing new header.")));
+        PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() writing new header.")));
         offset = firstCopiedNAL + totalNALLength;
         
         if ( (offset + nalSizes.Count()*8 + 4) > buffer.Length() ) 
             {
-            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() Fatal error, cannot create header, non-align 32bit encoder output buffer.")));
+            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() Fatal error, cannot create header, non-align 32bit encoder output buffer.")));
             VRASSERT(0);            
             }
 
         for (TInt j=0; j<nalSizes.Count(); j++)
             {
-            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeader() new header, unit: %d, start: %d, size: %d."), j, nalStarts[j], nalSizes[j] ));            
+            PRINT((_L("CCMRVideoRecorder::RemoveNalDecSpecInfoHeaderL() new header, unit: %d, start: %d, size: %d."), j, nalStarts[j], nalSizes[j] ));            
             // Write NAL unit start position
             buffer[offset + 0] = TUint8(nalStarts[j] & 0xff);
             buffer[offset + 1] = TUint8((nalStarts[j] >> 8) & 0xff);
