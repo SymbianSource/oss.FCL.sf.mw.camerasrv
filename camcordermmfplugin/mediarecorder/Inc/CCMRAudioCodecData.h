@@ -20,7 +20,7 @@
 #define CCMRAUDIOCODECDATA_H
 
 // INCLUDES
-#include <CCMRMediaSink.h>
+#include "CCMRMediaSink.h"
 
 #include <e32base.h>
 #include <mmf/common/mmffourcc.h>
