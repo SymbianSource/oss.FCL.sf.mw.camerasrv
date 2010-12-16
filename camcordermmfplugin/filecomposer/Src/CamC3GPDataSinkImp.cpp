@@ -189,6 +189,7 @@ void CCamC3GPDataSinkImp::ConstructL(M3GPDataSinkObserver *aObserver)
     iVideoRandomAccessPoint = EFalse;
     iVideoBufferRandomAccessPoint = EFalse;
     iVideoFrameDuration = 0;
+    iVideoFrameDurationRoundingError = 0.0;
     iVideoBufferFrameSize = 0;
     iVideoFrameNumber = 0;
     iVideoIntraFrameNumber = 0;
@@ -261,6 +262,7 @@ void CCamC3GPDataSinkImp::OpenFileL(TFileName aFileName, TFourCC aAudioCodecType
     iAvarageEndTime = -1;
     iVideoFrameNumber = 0;
     iVideoIntraFrameNumber = 0;
+    iVideoFrameDurationRoundingError = 0.0;
     iBytesReceived = 0;
     iAudioAACFrameDuration = 0;
     iAudioAACSamplerate = 0;
@@ -1112,6 +1114,7 @@ void CCamC3GPDataSinkImp::SinkStopL()
     iVideoRandomAccessPoint = EFalse;
     iVideoBufferRandomAccessPoint = EFalse;
     iVideoFrameDuration = 0;
+    iVideoFrameDurationRoundingError = 0.0;
     iVideoBufferFrameSize = 0;
     iVideoDecSpecInfoSize = 0;
     iAudioDecSpecInfoSize = 0;
@@ -1148,7 +1151,7 @@ void CCamC3GPDataSinkImp::SinkStopL()
 void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
     {
     PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL enter")));
-    TInt64  videoduration = 0;
+    TReal64  videoduration = 0;
     TUint8* tmpaudiobuffer = 0;
     TInt64 currentfilesize;
     MP4Err  error = MP4_OK;
@@ -1301,9 +1304,18 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 break;
                 }
 
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoTimestamp= %Ld"), iVideoTimestamp.Int64()));
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoBufferTimestamp= %Ld"), iVideoBufferTimestamp.Int64()));
             videoduration = iVideoTimestamp.Int64() - iVideoBufferTimestamp.Int64(); // Duration in microseconds
-            videoduration = TInt64((videoduration * KVideoTimeScale) / 1E6 + 0.5); // Duration scaled to KVideoTimeScale
-            iVideoFrameDuration = (TUint)I64INT(videoduration);
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL videoduration step one= %f"), videoduration));
+            videoduration = (videoduration * KVideoTimeScale) / 1E6; // Duration scaled to KVideoTimeScale
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration= %f"), videoduration));
+            videoduration = videoduration + iVideoFrameDurationRoundingError; // add rounding error from previous frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration with previous rounding error= %f"), videoduration));
+            iVideoFrameDuration = (TUint)videoduration;
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDuration= %u"), iVideoFrameDuration));
+            iVideoFrameDurationRoundingError = videoduration - (TUint)videoduration; // calculate rounding error for next frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDurationRoundingError= %f"), iVideoFrameDurationRoundingError));
 
             error = MP4ComposeWriteVideoFrame(iMP4Handle,
                                               (mp4_u8 *)iVideoBuffer,
@@ -1373,10 +1385,19 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 break;
                 }
 
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoTimestamp= %Ld"), iVideoTimestamp.Int64()));
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoBufferTimestamp= %Ld"), iVideoBufferTimestamp.Int64()));
             videoduration = iVideoTimestamp.Int64() - iVideoBufferTimestamp.Int64(); // Duration in microseconds
-            videoduration = TInt64((videoduration * KVideoTimeScale) / 1E6 + 0.5); // Duration scaled to KVideoTimeScale
-            iVideoFrameDuration = (TUint)I64INT(videoduration);
-
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL videoduration step one= %f"), videoduration));
+            videoduration = (videoduration * KVideoTimeScale) / 1E6; // Duration scaled to KVideoTimeScale
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration= %f"), videoduration));
+            videoduration = videoduration + iVideoFrameDurationRoundingError; // add rounding error from previous frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration with previous rounding error= %f"), videoduration));
+            iVideoFrameDuration = (TUint)videoduration;
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDuration= %u"), iVideoFrameDuration));
+            iVideoFrameDurationRoundingError = videoduration - (TUint)videoduration; // calculate rounding error for next frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDurationRoundingError= %f"), iVideoFrameDurationRoundingError));
+            
             error = MP4ComposeWriteVideoFrame(iMP4Handle,
                                               (mp4_u8 *)iVideoBuffer,
                                               (mp4_u32)iVideoBufferFrameSize,
@@ -1429,9 +1450,18 @@ void CCamC3GPDataSinkImp::WriteBufferL(CCMRMediaBuffer* aBuffer)
                 break;
                 }
 
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoTimestamp= %Ld"), iVideoTimestamp.Int64()));
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoBufferTimestamp= %Ld"), iVideoBufferTimestamp.Int64()));
             videoduration = iVideoTimestamp.Int64() - iVideoBufferTimestamp.Int64(); // Duration in microseconds
-            videoduration = TInt64((videoduration * KVideoTimeScale) / 1E6 + 0.5); // Duration scaled to KVideoTimeScale
-            iVideoFrameDuration = (TUint)I64INT(videoduration);
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL videoduration step one= %f"), videoduration));
+            videoduration = (videoduration * KVideoTimeScale) / 1E6; // Duration scaled to KVideoTimeScale
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration= %f"), videoduration));
+            videoduration = videoduration + iVideoFrameDurationRoundingError; // add rounding error from previous frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL scaled videoduration with previous rounding error= %f"), videoduration));
+            iVideoFrameDuration = (TUint)videoduration;
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDuration= %u"), iVideoFrameDuration));
+            iVideoFrameDurationRoundingError = videoduration - (TUint)videoduration; // calculate rounding error for next frame
+            PRINT((_L("CCamC3GPDataSinkImp::WriteBufferL iVideoFrameDurationRoundingError= %f"), iVideoFrameDurationRoundingError));
 
             error = MP4ComposeWriteVideoFrame(iMP4Handle,
                                               (mp4_u8 *)iVideoBuffer,

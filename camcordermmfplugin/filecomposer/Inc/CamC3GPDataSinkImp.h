@@ -318,6 +318,9 @@ class CCamC3GPDataSinkImp : public CCamC3GPDataSink, public M3GPMP4LibAsyncTempF
         // Duration of the video frame buffered in the sink
         TUint       iVideoFrameDuration;
 
+        // Rounding error of previous video frame to be added to next frame duration.
+        TReal       iVideoFrameDurationRoundingError;
+
         // Is current video frame a random access point
         TBool       iVideoRandomAccessPoint;
 
